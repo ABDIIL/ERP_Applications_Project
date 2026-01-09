@@ -1,8 +1,19 @@
 namespace my.project;
 
-entity Artist{
+entity Artiest{
     key ID: Integer;
-    naam: String;
+    artiestNaam: String;
     genre: String;   //kan ook een enum worden
+    land: String;
+    nationaliteit: String;
+    populariteit: Double;
 
+}
+
+entity Order{
+    key ID: Integer;
+    klantNaam: String;
+    orderType: String;
+    status: String;
+    totaleBedrag: Double;
 }
