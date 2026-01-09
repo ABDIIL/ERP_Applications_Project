@@ -43,7 +43,7 @@
     }
   },
   "sap.ui5": {
-    "flexEnabled": true,
+    "flexEnabled": false,
     "dependencies": {
       "minUI5Version": "1.136.8",
       "libs": {
@@ -93,14 +93,25 @@
       },
       "routes": [
         {
-          "name": "RouteERP_PROJECT_VIEW",
+          "name": "RouteArtiestManagement",
           "pattern": ":?query:",
+          "target": [
+            "TargetArtiestManagement"
+          ]
+        },
+        {
+          "name": "RouteERP_PROJECT_VIEW",
+          "pattern": "erp:?query:",
           "target": [
             "TargetERP_PROJECT_VIEW"
           ]
         }
       ],
       "targets": {
+        "TargetArtiestManagement": {
+          "id": "ArtiestManagement",
+          "name": "ArtiestManagement"
+        },
         "TargetERP_PROJECT_VIEW": {
           "id": "ERP_PROJECT_VIEW",
           "name": "ERP_PROJECT_VIEW"

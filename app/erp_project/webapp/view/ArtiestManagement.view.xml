@@ -1,0 +1,70 @@
+<mvc:View
+  controllerName="my.project.erpproject.controller.ArtiestManagement"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core">
+
+  <Page id="paginaArtiestManagement" title="Artiesten">
+    <content>
+
+      <VBox width="100%">
+
+        <OverflowToolbar>
+          <SearchField
+            id="zoekVeldArtiest"
+            width="16rem"
+            placeholder="Zoek op naam"
+            liveChange=".bijZoekVerandering"
+            search=".bijZoekActie" />
+
+          <ToolbarSpacer />
+
+          <Select id="filterGenre" width="12rem" change=".bijFilterWijziging">
+            <core:Item key="" text="Alle genres" />
+            <core:Item key="TECHNO" text="Techno" />
+            <core:Item key="POP" text="Pop" />
+            <core:Item key="HARDSTYLE" text="Hardstyle" />
+            <core:Item key="INDIE" text="Indie" />
+            <core:Item key="HOUSE" text="House" />
+            <core:Item key="ANDERS" text="Anders" />
+          </Select>
+
+          <Input
+            id="filterLand"
+            width="12rem"
+            placeholder="Filter op land"
+            liveChange=".bijFilterWijziging" />
+
+          <Select id="sorteerKeuze" width="16rem" change=".bijSorteerWijziging">
+            <core:Item key="artiestNaam" text="Sorteer: naam (A-Z)" />
+            <core:Item key="populariteit" text="Sorteer: populariteit (hoog-laag)" />
+          </Select>
+        </OverflowToolbar>
+
+        <Table
+          id="tabelArtiesten"
+          items="{ path: '/Artiesten' }">
+          <columns>
+            <Column><Text text="Naam" /></Column>
+            <Column><Text text="Genre" /></Column>
+            <Column><Text text="Land" /></Column>
+            <Column hAlign="End"><Text text="Populariteit" /></Column>
+          </columns>
+
+          <items>
+            <ColumnListItem>
+              <cells>
+                <Text text="{artiestNaam}" />
+                <Text text="{genre}" />
+                <Text text="{land}" />
+                <ObjectNumber number="{populariteit}" />
+              </cells>
+            </ColumnListItem>
+          </items>
+        </Table>
+
+      </VBox>
+
+    </content>
+  </Page>
+</mvc:View>
