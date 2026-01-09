@@ -7,10 +7,15 @@
     "express": "^4"
   },
   "devDependencies": {
-    "@cap-js/sqlite": "^2"
+    "@cap-js/sqlite": "^2",
+    "cds-plugin-ui5": "^0.13.0"
   },
   "scripts": {
-    "start": "cds-serve"
+    "start": "cds-serve",
+    "watch-erp_project": "cds watch --open my.project.erpproject/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
-  "private": true
+  "private": true,
+  "workspaces": [
+    "app/*"
+  ]
 }
