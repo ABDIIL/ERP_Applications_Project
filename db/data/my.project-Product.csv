@@ -1,0 +1,21 @@
+ID,naam,categorie,prijs
+1,Dagpas Vrijdag,TICKETS,89
+2,Dagpas Zaterdag,TICKETS,95
+3,Dagpas Zondag,TICKETS,92
+4,Weekendpas,TICKETS,249
+5,VIP Upgrade,TICKETS,120
+6,Camping Pass,TICKETS,35
+7,Shuttle Bus,TICKETS,15
+8,T-shirt M,MERCHANDISE,25
+9,T-shirt L,MERCHANDISE,25
+10,Hoodie,MERCHANDISE,55
+11,Pet,MERCHANDISE,18
+12,Poster,MERCHANDISE,10
+13,Polsbandje,MERCHANDISE,5
+14,Waterfles,MERCHANDISE,12
+15,Bonnenpakket S,FOOD_DRINKS,20
+16,Bonnenpakket M,FOOD_DRINKS,35
+17,Bonnenpakket L,FOOD_DRINKS,50
+18,Hamburger,FOOD_DRINKS,9
+19,Friet,FOOD_DRINKS,4
+20,Cola,FOOD_DRINKS,3

@@ -51,7 +51,7 @@ entity Review {
   artiest: Association to Artiest;
 }
 
-)
+
 entity Klant {
   key ID: Integer;
   klantNaam: String;

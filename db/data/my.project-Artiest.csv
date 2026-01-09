@@ -1,11 +1,21 @@
-ID,artiestNaam,genre,land,nationaliteit,populariteit
-1,Armin van Buuren,Trance,Nederland,Nederlands,9.4
-2,Charlotte de Witte,Techno,België,Belgisch,8.9
-3,Martin Garrix,EDM,Nederland,Nederlands,9.6
-4,Daft Punk,Electronic,Frankrijk,Frans,9.8
-5,Calvin Harris,House,Verenigd Koninkrijk,Brits,9.2
-6,Amelie Lens,Techno,België,Belgisch,8.7
-7,Dimitri Vegas,EDM,België,Belgisch,8.5
-8,Skrillex,Dubstep,Verenigde Staten,Amerikaans,9.0
-9,Nina Kraviz,Techno,Rusland,Russisch,8.6
-10,Eric Prydz,Progressive House,Zweden,Zweeds,9.1
+ID,artiestNaam,genre,land,nationaliteit,populariteit,beschrijving
+1,Nova Pulse,TECHNO,Belgie,Belgisch,9.4,Donkere warehouse techno
+2,Sunset Echo,POP,Nederland,Nederlands,7.2,Pop met live band
+3,Iron Kicks,HARDSTYLE,Duitsland,Duits,8.6,Hardstyle met zware kicks
+4,Indie Atlas,INDIE,Verenigd Koninkrijk,Brits,6.8,Dromerige indie rock
+5,House Horizon,HOUSE,Frankrijk,Frans,8.1,French house classics
+6,Wildcard Duo,ANDERS,Spanje,Spaans,5.9,Genre mix en experiment
+7,Neon Circuit,TECHNO,Zweden,Zweeds,8.9,Melodic techno set
+8,Pop Theory,POP,Verenigde Staten,Amerikaans,6.3,Radio pop hits
+9,Bass Forge,HARDSTYLE,Italie,Italiaans,7.9,Raw hardstyle energie
+10,Indie Bloom,INDIE,Belgie,Belgisch,7.1,Indie met synth lagen
+11,Deep Terrace,HOUSE,Nederland,Nederlands,8.4,Deep house sunset vibe
+12,Odd Frequency,ANDERS,Japan,Japanse,6.1,Electro en visuals
+13,Midnight Grid,TECHNO,Duitsland,Duits,9.0,Peak time techno
+14,Golden Chorus,POP,Frankrijk,Frans,5.8,Pop met koor hooks
+15,Hardwave Unit,HARDSTYLE,Polen,Pools,8.0,Hardstyle met trance leads
+16,Indie North,INDIE,Noorwegen,Noors,6.0,Minimal indie sound
+17,House Avenue,HOUSE,Spanje,Spaans,7.7,House met Latin groove
+18,Elsewhere Project,ANDERS,Belgie,Belgisch,4.8,Ambient intermezzo
+19,Chrome Ritual,TECHNO,Verenigd Koninkrijk,Brits,8.2,Industrial techno
+20,Pop Velocity,POP,Nederland,Nederlands,7.5,Snelle pop performance
