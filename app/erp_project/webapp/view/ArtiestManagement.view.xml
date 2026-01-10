@@ -39,6 +39,9 @@
             <core:Item key="artiestNaam" text="Sorteer: naam (A-Z)" />
             <core:Item key="populariteit" text="Sorteer: populariteit (hoog-laag)" />
           </Select>
+
+          <ToolbarSeparator />
+          <Button text="Nieuwe artiest" type="Emphasized" press=".onNewArtiest" />
         </OverflowToolbar>
 
         <Table

@@ -30,6 +30,10 @@ sap.ui.define([
       });
     },
 
+    onNewArtiest: function () {
+      this.getOwnerComponent().getRouter().navTo("RouteArtiestCreate");
+    },
+
     bijZoekVerandering: function () {
       this._pasFiltersEnSorteringToe();
     },

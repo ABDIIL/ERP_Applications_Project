@@ -1,0 +1,93 @@
+<mvc:View
+  controllerName="my.project.erpproject.controller.ArtiestCreate"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:f="sap.ui.layout.form"
+  height="100%">
+
+  <Page
+    id="paginaArtiestCreate"
+    title="Nieuwe artiest"
+    showNavButton="true"
+    navButtonPress=".onCancel"
+    class="sapUiResponsivePadding--header sapUiResponsivePadding--content">
+
+    <content>
+      <f:SimpleForm
+        id="sfArtiestCreate"
+        editable="true"
+        layout="ResponsiveGridLayout"
+        labelSpanXL="4"
+        labelSpanL="4"
+        labelSpanM="12"
+        labelSpanS="12"
+        adjustLabelSpan="false"
+        emptySpanXL="0"
+        emptySpanL="0"
+        emptySpanM="0"
+        emptySpanS="0"
+        columnsXL="2"
+        columnsL="2"
+        columnsM="1"
+        singleContainerFullSize="false">
+
+        <f:content>
+          <core:Title text="Basisgegevens" />
+
+          <Label text="Naam" required="true" />
+          <Input value="{create>/artiestNaam}" placeholder="Naam van de artiest" />
+
+          <Label text="Genre" required="true" />
+          <Select selectedKey="{create>/genre}">
+            <items>
+              <core:Item key="TECHNO" text="Techno" />
+              <core:Item key="POP" text="Pop" />
+              <core:Item key="HARDSTYLE" text="Hardstyle" />
+              <core:Item key="INDIE" text="Indie" />
+              <core:Item key="HOUSE" text="House" />
+              <core:Item key="ANDERS" text="Anders" />
+            </items>
+          </Select>
+
+          <Label text="Land" />
+          <Input value="{create>/land}" placeholder="Bijv. België" />
+
+          <Label text="Nationaliteit" />
+          <Input value="{create>/nationaliteit}" placeholder="Bijv. Belg" />
+
+          <Label text="Biografie (optioneel)" />
+          <TextArea value="{create>/biografie}" rows="4" growing="true" placeholder="Korte biografie..." />
+
+          <core:Title text="Performanceplanning" />
+
+          <Label text="Festivaldag" required="true" />
+          <Select selectedKey="{create>/festivalDagId}" items="{ path: '/FestivalDagen' }">
+            <core:Item key="{ID}" text="{datum}" />
+          </Select>
+
+          <Label text="Stage" required="true" />
+          <Select selectedKey="{create>/stageId}" items="{ path: '/Stages' }">
+            <core:Item key="{ID}" text="{stageNaam}" />
+          </Select>
+
+          <Label text="Start" required="true" />
+          <TimePicker value="{create>/startTijd}" valueFormat="HH:mm" displayFormat="HH:mm" />
+
+          <Label text="Einde" required="true" />
+          <TimePicker value="{create>/eindTijd}" valueFormat="HH:mm" displayFormat="HH:mm" />
+
+        </f:content>
+      </f:SimpleForm>
+    </content>
+
+    <footer>
+      <Toolbar>
+        <ToolbarSpacer />
+        <Button text="Annuleren" press=".onCancel" />
+        <Button text="Opslaan" type="Emphasized" press=".onSave" />
+      </Toolbar>
+    </footer>
+
+  </Page>
+</mvc:View>
