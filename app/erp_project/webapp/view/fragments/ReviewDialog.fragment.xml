@@ -1,0 +1,30 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+  <Dialog
+    id="dlgReview"
+    title="Nieuwe review"
+    draggable="true"
+    resizable="true">
+
+    <content>
+      <VBox class="sapUiSmallMargin" width="100%">
+
+        <Label text="Klantnaam" required="true" />
+        <Input id="inpReviewKlantNaam" placeholder="Naam" />
+
+        <Label text="Rating" required="true" class="sapUiSmallMarginTop" />
+        <RatingIndicator id="riReviewRating" maxValue="5" value="0" />
+
+        <Label text="Comment (optioneel)" class="sapUiSmallMarginTop" />
+        <TextArea id="taReviewCommentaar" rows="4" growing="true" placeholder="Schrijf je review..." />
+
+      </VBox>
+    </content>
+
+    <beginButton>
+      <Button text="Opslaan" type="Emphasized" press=".onSaveReviewDialog" />
+    </beginButton>
+    <endButton>
+      <Button text="Annuleren" press=".onCancelReviewDialog" />
+    </endButton>
+  </Dialog>
+</core:FragmentDefinition>

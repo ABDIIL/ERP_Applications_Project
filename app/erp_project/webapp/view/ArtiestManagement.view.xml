@@ -52,7 +52,7 @@
           </columns>
 
           <items>
-            <ColumnListItem>
+            <ColumnListItem type="Navigation" press=".onArtiestPress">
               <cells>
                 <Text text="{artiestNaam}" />
                 <Text text="{genre}" />

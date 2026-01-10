@@ -1,3 +1,4 @@
+
 {
   "_version": "1.73.1",
   "sap.app": {
@@ -100,6 +101,13 @@
           ]
         },
         {
+          "name": "RouteArtiestDetail",
+          "pattern": "artiest/{ID}",
+          "target": [
+            "TargetArtiestDetail"
+          ]
+        },
+        {
           "name": "RouteERP_PROJECT_VIEW",
           "pattern": "erp:?query:",
           "target": [
@@ -111,6 +119,10 @@
         "TargetArtiestManagement": {
           "id": "ArtiestManagement",
           "name": "ArtiestManagement"
+        },
+        "TargetArtiestDetail": {
+          "id": "ArtiestDetail",
+          "name": "ArtiestDetail"
         },
         "TargetERP_PROJECT_VIEW": {
           "id": "ERP_PROJECT_VIEW",
@@ -126,3 +138,4 @@
     }
   }
 }
+

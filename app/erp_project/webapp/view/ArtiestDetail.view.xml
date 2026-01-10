@@ -1,0 +1,75 @@
+<mvc:View
+  controllerName="my.project.erpproject.controller.ArtiestDetail"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  height="100%">
+
+  <Page
+    id="paginaArtiestDetail"
+    title="{artiestNaam}"
+    showNavButton="true"
+    navButtonPress=".onNavBack"
+    class="sapUiResponsivePadding--header sapUiResponsivePadding--content">
+
+    <content>
+
+      <ObjectHeader
+        title="{artiestNaam}"
+        intro="{genre}"
+        number="{vm>/avgRating}"
+        numberUnit="/ 5"
+        backgroundDesign="Solid">
+        <attributes>
+          <ObjectAttribute title="Land" text="{land}" />
+          <ObjectAttribute title="Nationaliteit" text="{nationaliteit}" />
+          <ObjectAttribute title="Populariteit" text="{populariteit}" />
+          <ObjectAttribute title="Aantal reviews" text="{vm>/reviewCount}" />
+        </attributes>
+      </ObjectHeader>
+
+      <IconTabBar
+        id="tabsArtiestDetail"
+        expanded="{device>/isNoPhone}"
+        class="sapUiSmallMarginBottom">
+        <items>
+
+          <IconTabFilter key="profiel" text="Profiel">
+            <VBox class="sapUiSmallMarginTop">
+              <Title text="Biografie" level="H3" />
+              <Text text="{beschrijving}" wrapping="true" />
+            </VBox>
+          </IconTabFilter>
+
+          <IconTabFilter key="optredens" text="Optredens">
+            <Table id="optredensTable" headerText="Optredens" inset="false">
+              <columns>
+                <Column><Text text="Dag" /></Column>
+                <Column><Text text="Stage" /></Column>
+                <Column><Text text="Start" /></Column>
+                <Column><Text text="Einde" /></Column>
+              </columns>
+            </Table>
+          </IconTabFilter>
+
+          <IconTabFilter key="reviews" text="Reviews">
+            <VBox class="sapUiSmallMarginTop">
+
+              <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginBottom">
+                <ObjectNumber number="{vm>/avgRating}" unit="/ 5" />
+                <Button text="Nieuwe review" type="Emphasized" press=".onOpenReviewDialog" />
+              </HBox>
+
+              <List id="reviewsList" headerText="Reviews" showSeparators="Inner" />
+
+            </VBox>
+          </IconTabFilter>
+
+        </items>
+      </IconTabBar>
+
+    </content>
+
+  </Page>
+
+</mvc:View>

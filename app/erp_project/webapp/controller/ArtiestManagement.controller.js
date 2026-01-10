@@ -13,6 +13,23 @@ sap.ui.define([
       this._pasFiltersEnSorteringToe();
     },
 
+    onArtiestPress: function (oEvent) {
+      var oItem = oEvent.getSource();
+      var oCtx = oItem.getBindingContext();
+      if (!oCtx) {
+        return;
+      }
+
+      var iID = oCtx.getProperty("ID");
+      if (iID === undefined || iID === null) {
+        return;
+      }
+
+      this.getOwnerComponent().getRouter().navTo("RouteArtiestDetail", {
+        ID: iID
+      });
+    },
+
     bijZoekVerandering: function () {
       this._pasFiltersEnSorteringToe();
     },
