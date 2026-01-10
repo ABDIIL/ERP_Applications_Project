@@ -3,19 +3,35 @@
     id="dlgReview"
     title="Nieuwe review"
     draggable="true"
-    resizable="true">
+    resizable="true"
+    class="sapUiResponsivePadding--header sapUiResponsivePadding--content sapUiResponsivePadding--footer">
 
     <content>
       <VBox class="sapUiSmallMargin" width="100%">
 
-        <Label text="Klantnaam" required="true" />
-        <Input id="inpReviewKlantNaam" placeholder="Naam" />
+        <VBox width="100%">
 
-        <Label text="Rating" required="true" class="sapUiSmallMarginTop" />
-        <RatingIndicator id="riReviewRating" maxValue="5" value="0" />
+          <Label text="Klantnaam (optioneel)" />
+          <Input
+            id="inpReviewKlantNaam"
+            placeholder="Anoniem"
+            width="100%" />
 
-        <Label text="Comment (optioneel)" class="sapUiSmallMarginTop" />
-        <TextArea id="taReviewCommentaar" rows="4" growing="true" placeholder="Schrijf je review..." />
+          <Label text="Rating" required="true" class="sapUiSmallMarginTop" />
+          <RatingIndicator
+            id="riReviewRating"
+            maxValue="5"
+            value="0" />
+
+          <Label text="Comment (optioneel)" class="sapUiSmallMarginTop" />
+          <TextArea
+            id="taReviewCommentaar"
+            rows="4"
+            growing="true"
+            placeholder="Schrijf je review..."
+            width="100%" />
+
+        </VBox>
 
       </VBox>
     </content>
@@ -26,5 +42,6 @@
     <endButton>
       <Button text="Annuleren" press=".onCancelReviewDialog" />
     </endButton>
+
   </Dialog>
 </core:FragmentDefinition>

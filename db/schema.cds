@@ -27,7 +27,6 @@ type ProductCategorie : String enum {
   foodDrinks  = 'FOOD_DRINKS';
 }
 
-
 entity Artiest {
   key ID: Integer;
   artiestNaam: String;
@@ -35,7 +34,7 @@ entity Artiest {
   land: String;
   nationaliteit: String;
   populariteit: Double;
-  beschrijving: String;
+  biografie: String(2000);
 
   reviews   : Composition of many Review   on reviews.artiest = $self;
   optredens : Association to many Optreden on optredens.artiest = $self;
@@ -50,7 +49,6 @@ entity Review {
 
   artiest: Association to Artiest;
 }
-
 
 entity Klant {
   key ID: Integer;
@@ -79,7 +77,6 @@ entity Product {
   orderItems: Association to many OrderItem on orderItems.product = $self;
 }
 
-
 entity OrderItem {
   key order: Association to Order;
   key pos: Integer;
@@ -91,7 +88,6 @@ entity OrderItem {
   subtotaal: Double;
 }
 
-
 entity Stage {
   key ID: Integer;
   stageNaam: String;
@@ -99,14 +95,12 @@ entity Stage {
   optredens: Association to many Optreden on optredens.stage = $self;
 }
 
-
 entity FestivalDag {
   key ID: Integer;
   datum: Date;
 
   optredens: Association to many Optreden on optredens.festivalDag = $self;
 }
-
 
 entity Optreden {
   key ID: Integer;

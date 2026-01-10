@@ -37,7 +37,7 @@
           <IconTabFilter key="profiel" text="Profiel">
             <VBox class="sapUiSmallMarginTop">
               <Title text="Biografie" level="H3" />
-              <Text text="{beschrijving}" wrapping="true" />
+              <Text text="{biografie}" wrapping="true" />
             </VBox>
           </IconTabFilter>
 

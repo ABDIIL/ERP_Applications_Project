@@ -40,7 +40,6 @@ sap.ui.define([
       }
       this._sArtiestId = iId;
 
-      // Bind de pagina aan de gekozen artiest
       this.getView().bindElement({
         path: "/Artiesten(" + iId + ")"
       });
@@ -102,7 +101,6 @@ sap.ui.define([
         })
       });
 
-      // Stats opnieuw berekenen wanneer data binnenkomt
       var oBinding = oList.getBinding("items");
       if (oBinding) {
         oBinding.attachChange(this._recalcReviewStats, this);
@@ -126,29 +124,34 @@ sap.ui.define([
         var fAvg = 0;
         if (iCount > 0) {
           var iSum = aRatings.reduce(function (acc, r) { return acc + r; }, 0);
-          fAvg = Math.round((iSum / iCount) * 10) / 10; // 1 decimaal
+          fAvg = Math.round((iSum / iCount) * 10) / 10;
         }
 
         this.getView().getModel("vm").setProperty("/reviewCount", iCount);
         this.getView().getModel("vm").setProperty("/avgRating", fAvg);
       } catch (e) {
-        // stil falen
+        // ignore
       }
     },
 
     onOpenReviewDialog: async function () {
       if (!this._oReviewDialog) {
         this._oReviewDialog = await Fragment.load({
+          id: this.getView().getId(), // ✅ essentieel: prefix voor fragment IDs
           name: "my.project.erpproject.view.fragments.ReviewDialog",
           controller: this
         });
         this.getView().addDependent(this._oReviewDialog);
       }
 
-      // reset velden
-      this.byId("inpReviewKlantNaam").setValue("");
-      this.byId("riReviewRating").setValue(0);
-      this.byId("taReviewCommentaar").setValue("");
+      // reset velden (nu werkt this.byId wél)
+      var oInpNaam = this.byId("inpReviewKlantNaam");
+      var oRating = this.byId("riReviewRating");
+      var oComment = this.byId("taReviewCommentaar");
+
+      if (oInpNaam) { oInpNaam.setValue(""); }
+      if (oRating) { oRating.setValue(0); }
+      if (oComment) { oComment.setValue(""); }
 
       this._oReviewDialog.open();
     },
@@ -169,9 +172,9 @@ sap.ui.define([
       var iRating = parseInt(this.byId("riReviewRating").getValue(), 10);
       var sCommentaar = (this.byId("taReviewCommentaar").getValue() || "").trim();
 
+      // ✅ klantnaam optioneel → default "Anoniem"
       if (!sKlantNaam) {
-        MessageToast.show("Vul een klantnaam in");
-        return;
+        sKlantNaam = "Anoniem";
       }
       if (!iRating || iRating < 1 || iRating > 5) {
         MessageToast.show("Kies een rating van 1 tot 5");
@@ -186,7 +189,7 @@ sap.ui.define([
       }
 
       try {
-        oBinding.create({
+        var oCreatedCtx = oBinding.create({
           rating: iRating,
           commentaar: sCommentaar,
           datum: _formatEdmDate(),
@@ -194,8 +197,21 @@ sap.ui.define([
           artiest_ID: iArtiestId
         });
 
-        this._oReviewDialog.close();
-        MessageToast.show("Review toegevoegd");
+        Promise.resolve(oCreatedCtx && oCreatedCtx.created ? oCreatedCtx.created() : null)
+          .then(function () {
+            this._oReviewDialog.close();
+
+            // ✅ meteen zichtbaar + avg opnieuw berekend
+            if (oBinding.refresh) {
+              oBinding.refresh();
+            }
+            this._recalcReviewStats();
+
+            MessageToast.show("Review toegevoegd");
+          }.bind(this))
+          .catch(function () {
+            MessageToast.show("Opslaan mislukt");
+          });
       } catch (e) {
         MessageToast.show("Opslaan mislukt");
       }

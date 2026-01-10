@@ -1,21 +1,21 @@
-ID,artiestNaam,genre,land,nationaliteit,populariteit,beschrijving
-1,Nova Pulse,TECHNO,Belgie,Belgisch,9.4,Donkere warehouse techno
-2,Sunset Echo,POP,Nederland,Nederlands,7.2,Pop met live band
-3,Iron Kicks,HARDSTYLE,Duitsland,Duits,8.6,Hardstyle met zware kicks
-4,Indie Atlas,INDIE,Verenigd Koninkrijk,Brits,6.8,Dromerige indie rock
-5,House Horizon,HOUSE,Frankrijk,Frans,8.1,French house classics
-6,Wildcard Duo,ANDERS,Spanje,Spaans,5.9,Genre mix en experiment
-7,Neon Circuit,TECHNO,Zweden,Zweeds,8.9,Melodic techno set
-8,Pop Theory,POP,Verenigde Staten,Amerikaans,6.3,Radio pop hits
-9,Bass Forge,HARDSTYLE,Italie,Italiaans,7.9,Raw hardstyle energie
-10,Indie Bloom,INDIE,Belgie,Belgisch,7.1,Indie met synth lagen
-11,Deep Terrace,HOUSE,Nederland,Nederlands,8.4,Deep house sunset vibe
-12,Odd Frequency,ANDERS,Japan,Japanse,6.1,Electro en visuals
-13,Midnight Grid,TECHNO,Duitsland,Duits,9.0,Peak time techno
-14,Golden Chorus,POP,Frankrijk,Frans,5.8,Pop met koor hooks
-15,Hardwave Unit,HARDSTYLE,Polen,Pools,8.0,Hardstyle met trance leads
-16,Indie North,INDIE,Noorwegen,Noors,6.0,Minimal indie sound
-17,House Avenue,HOUSE,Spanje,Spaans,7.7,House met Latin groove
-18,Elsewhere Project,ANDERS,Belgie,Belgisch,4.8,Ambient intermezzo
-19,Chrome Ritual,TECHNO,Verenigd Koninkrijk,Brits,8.2,Industrial techno
-20,Pop Velocity,POP,Nederland,Nederlands,7.5,Snelle pop performance
+ID,artiestNaam,genre,land,nationaliteit,populariteit,biografie
+1,Nova Pulse,TECHNO,Belgie,Belgisch,9.4,"Nova Pulse bracht haar reputatie mee uit de Brusselse underground. Haar sets bouwen traag op met hypnotische grooves en strakke hi-hats en eindigen in een rauwe climax. Ze staat bekend om naadloze overgangen en een donkere sound die perfect past bij late warehouse slots."
+2,Sunset Echo,POP,Nederland,Nederlands,7.2,"Sunset Echo levert toegankelijke pop met een sterke live band en een opvallende stem. De show combineert meezingers met energieke breaks en korte akoestische momenten. Ideaal voor een gouden uur set waar het publiek snel mee is."
+3,Iron Kicks,HARDSTYLE,Duitsland,Duits,8.6,"Iron Kicks is een Duitse hardstyle act die focust op drive en impact. Denk aan stevige kicks, snelle build-ups en melodische leads die telkens terugkomen in de drop. De act heeft een strakke podiumpresence en houdt het tempo hoog van begin tot einde."
+4,Indie Atlas,INDIE,Verenigd Koninkrijk,Brits,6.8,"Indie Atlas mixt dromerige gitaren met warme vocalen en subtiele elektronica. De nummers vertellen kleine verhalen en werken goed in een intiemer tijdslot. Live legt de band de nadruk op sfeer en dynamiek eerder dan pure loudness."
+5,House Horizon,HOUSE,Frankrijk,Frans,8.1,"House Horizon is geworteld in de Franse house traditie met strakke filters en funky loops. De set is ritmisch en zonnig met veel klassieke referenties maar een moderne punch. Perfect om een stage in beweging te krijgen zonder agressief te worden."
+6,Wildcard Duo,ANDERS,Spanje,Spaans,5.9,"Wildcard Duo is een experimenteel duo dat genres bewust laat botsen. Ze schakelen tussen electro, breaks en onverwachte samples en spelen met tempo. De act is ideaal als verrassing in de line-up voor wie iets anders wil."
+7,Neon Circuit,TECHNO,Zweden,Zweeds,8.9,"Neon Circuit staat voor melodic techno met duidelijke thema’s en lange spanningsbogen. De sound is helder en cinematografisch met stevige low-end onderbouw. Hun sets werken sterk op grote stages door de combinatie van melodie en druk."
+8,Pop Theory,POP,Verenigde Staten,Amerikaans,6.3,"Pop Theory brengt radio-vriendelijke pop met een strak geproduceerde show. Korte hooks en veel interactie met het publiek staan centraal. Ideaal voor een breed publiek en een programma moment met maximale herkenbaarheid."
+9,Bass Forge,HARDSTYLE,Italie,Italiaans,7.9,"Bass Forge combineert raw hardstyle met industriële accenten en een agressieve drive. De drops zijn zwaar maar technisch netjes en de opbouw is gericht op spanning. Live werkt de act met snelle cuts en crowd moments."
+10,Indie Bloom,INDIE,Belgie,Belgisch,7.1,"Indie Bloom brengt Belgische indie met synth lagen en een melancholische ondertoon. De band bouwt songs op rond catchy riffs en een warme stem. Op het podium schakelen ze vlot tussen rustig en explosief zonder de vibe te verliezen."
+11,Deep Terrace,HOUSE,Nederland,Nederlands,8.4,"Deep Terrace levert diepe house met een ontspannen groove en subtiele percussie. De set voelt als een lange flow met zachte vocal chops en rijke pads. Uitstekend voor een sunset slot waar het publiek blijft dansen maar niet opgejaagd wordt."
+12,Odd Frequency,ANDERS,Japan,Japanse,6.1,"Odd Frequency is een audiovisuele act waar sound design even belangrijk is als ritme. Ze combineren electro met glitch elementen en sterke visuals die de set ondersteunen. Ideaal als brugmoment tussen genres of als late-night experiment."
+13,Midnight Grid,TECHNO,Duitsland,Duits,9.0,"Midnight Grid is peak time techno met hoge energie en minimale melodie. De focus ligt op impactvolle drums en een strak tempo dat het publiek constant vooruit duwt. Deze act is gemaakt voor het hoofdslot waar de druk maximaal mag zijn."
+14,Golden Chorus,POP,Frankrijk,Frans,5.8,"Golden Chorus brengt popnummers met koorachtige refreinen en veel harmonieën. De show is vrolijk en licht met duidelijke call-and-response momenten. Perfect voor een vroegere stage waar sfeer belangrijker is dan volume."
+15,Hardwave Unit,HARDSTYLE,Polen,Pools,8.0,"Hardwave Unit mixt hardstyle met trance-achtige leads en euforische breaks. De act balanceert tussen melodie en kracht met scherpe drops als beloning. Op festivals staat hij bekend om een sterke opbouw en een clean sound."
+16,Indie North,INDIE,Noorwegen,Noors,6.0,"Indie North brengt minimalistische indie met veel ruimte en detail. Zachte drums en heldere gitaren dragen de songs terwijl de vocals ingetogen blijven. Live is het een kalme maar stijlvolle set die goed werkt als adempauze in de planning."
+17,House Avenue,HOUSE,Spanje,Spaans,7.7,"House Avenue combineert house grooves met latin percussie en warme baslijnen. De set is dansbaar en feestelijk zonder te overdrijven. Ideaal voor een middagslot waar je de vibe snel wil opbouwen."
+18,Elsewhere Project,ANDERS,Belgie,Belgisch,4.8,"Elsewhere Project maakt ambient intermezzo’s met texturen en field recordings. Het is minder een klassieke show en meer een sfeerinstallatie die het terrein even laat ademen. Past goed tussen drukke blokken of op een rustige stage."
+19,Chrome Ritual,TECHNO,Verenigd Koninkrijk,Brits,8.2,"Chrome Ritual brengt industrial techno met scherpe klanken en stevige punch. De act gebruikt repetitie en spanning om een bijna rituele flow te creëren. Live is het donker en intens en werkt het sterk in een late zaalachtige setting."
+20,Pop Velocity,POP,Nederland,Nederlands,7.5,"Pop Velocity is een snelle pop act met choreografie en hoge energie. De set is strak getimed met korte tracks en veel publieksmomenten. Ideaal voor een mainstage moment waar je tempo en entertainment wil combineren."
