@@ -1,0 +1,171 @@
+<mvc:View
+  controllerName="my.project.erpproject.controller.OrderManagement"
+  displayBlock="true"
+  height="100%"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.f"
+  xmlns:m="sap.m"
+  xmlns:core="sap.ui.core">
+
+  <FlexibleColumnLayout
+    id="fclOrders"
+    layout="{layoutModel>/layout}"
+    backgroundDesign="Solid">
+
+    <beginColumnPages>
+      <m:Page id="ordersListPage" title="Orders">
+        <m:content>
+          <m:VBox width="100%">
+
+            <m:OverflowToolbar>
+              <m:SearchField
+                id="zoekOrderKlant"
+                width="16rem"
+                placeholder="Zoek op klant"
+                liveChange=".onOrderSearch"
+                search=".onOrderSearch" />
+
+              <m:ToolbarSpacer />
+
+              <m:Select id="filterOrderStatus" width="12rem" change=".onOrderFilterChange">
+                <core:Item key="" text="Alle statussen" />
+                <core:Item key="OPEN" text="Open" />
+                <core:Item key="BETAALD" text="Betaald" />
+                <core:Item key="GEANNULEERD" text="Geannuleerd" />
+              </m:Select>
+
+              <m:Select id="filterOrderType" width="14rem" change=".onOrderFilterChange">
+                <core:Item key="" text="Alle types" />
+                <core:Item key="TICKETS" text="Tickets" />
+                <core:Item key="MERCHANDISE" text="Merchandise" />
+                <core:Item key="FOOD_DRINKS" text="Food &amp; Drinks" />
+              </m:Select>
+
+              <m:Select id="sortOrder" width="14rem" change=".onOrderSortChange">
+                <core:Item key="date_desc" text="Sorteer: datum (nieuw-oud)" />
+                <core:Item key="date_asc" text="Sorteer: datum (oud-nieuw)" />
+              </m:Select>
+
+              <m:ToolbarSeparator />
+              <m:Button text="Nieuwe order" type="Emphasized" press=".onNewOrder" />
+            </m:OverflowToolbar>
+
+            <m:Table
+              id="tabelOrders"
+              items="{ path: '/Orders' }"
+              sticky="ColumnHeaders">
+              <m:columns>
+                <m:Column><m:Text text="Datum" /></m:Column>
+                <m:Column><m:Text text="Klant" /></m:Column>
+                <m:Column><m:Text text="Type" /></m:Column>
+                <m:Column><m:Text text="Status" /></m:Column>
+                <m:Column hAlign="End"><m:Text text="Totaal" /></m:Column>
+              </m:columns>
+
+              <m:items>
+                <m:ColumnListItem type="Active" press=".onOrderPress">
+                  <m:cells>
+                    <m:Text text="{orderDatum}" />
+                    <m:Text text="{klant/klantNaam}" />
+                    <m:Text text="{orderType}" />
+                    <m:ObjectStatus text="{status}" />
+                    <m:ObjectNumber
+                      number="{
+                        path: 'totaleBedrag',
+                        type: 'sap.ui.model.type.Float',
+                        formatOptions: { minFractionDigits: 2, maxFractionDigits: 2 }
+                      }"
+                      unit="€" />
+                  </m:cells>
+                </m:ColumnListItem>
+              </m:items>
+            </m:Table>
+
+          </m:VBox>
+        </m:content>
+      </m:Page>
+    </beginColumnPages>
+
+    <midColumnPages>
+      <m:Page
+        id="ordersDetailPage"
+        title="Order"
+        showNavButton="true"
+        navButtonPress=".onCloseDetail">
+
+        <m:content>
+          <m:ObjectHeader
+            title="Order #{ID}"
+            number="{
+              path: 'totaleBedrag',
+              type: 'sap.ui.model.type.Float',
+              formatOptions: { minFractionDigits: 2, maxFractionDigits: 2 }
+            }"
+            numberUnit="€">
+            <m:attributes>
+              <m:ObjectAttribute title="Datum" text="{orderDatum}" />
+              <m:ObjectAttribute title="Klant" text="{klant/klantNaam}" />
+              <m:ObjectAttribute title="Type" text="{orderType}" />
+            </m:attributes>
+            <m:statuses>
+              <m:ObjectStatus title="Status" text="{status}" />
+            </m:statuses>
+          </m:ObjectHeader>
+
+          <m:Toolbar class="sapUiSmallMarginTop">
+            <m:Title text="Items" level="H3" />
+          </m:Toolbar>
+
+          <m:Table
+            id="tabelOrderItems"
+            items="{ path: 'items' }"
+            sticky="ColumnHeaders">
+            <m:columns>
+              <m:Column><m:Text text="Product" /></m:Column>
+              <m:Column hAlign="End"><m:Text text="Aantal" /></m:Column>
+              <m:Column hAlign="End"><m:Text text="Prijs" /></m:Column>
+              <m:Column hAlign="End"><m:Text text="Subtotaal" /></m:Column>
+            </m:columns>
+
+            <m:items>
+              <m:ColumnListItem>
+                <m:cells>
+                  <m:Text text="{product/naam}" />
+                  <m:ObjectNumber number="{aantal}" />
+                  <m:ObjectNumber
+                    number="{
+                      path: 'eenheidsPrijs',
+                      type: 'sap.ui.model.type.Float',
+                      formatOptions: { minFractionDigits: 2, maxFractionDigits: 2 }
+                    }"
+                    unit="€" />
+                  <m:ObjectNumber
+                    number="{
+                      path: 'subtotaal',
+                      type: 'sap.ui.model.type.Float',
+                      formatOptions: { minFractionDigits: 2, maxFractionDigits: 2 }
+                    }"
+                    unit="€" />
+                </m:cells>
+              </m:ColumnListItem>
+            </m:items>
+          </m:Table>
+
+          <m:Toolbar class="sapUiSmallMarginTop">
+            <m:ToolbarSpacer />
+            <m:Title text="Totaal" level="H3" />
+            <m:ObjectNumber
+              number="{
+                path: 'totaleBedrag',
+                type: 'sap.ui.model.type.Float',
+                formatOptions: { minFractionDigits: 2, maxFractionDigits: 2 }
+              }"
+              unit="€" />
+          </m:Toolbar>
+
+        </m:content>
+      </m:Page>
+    </midColumnPages>
+
+  </FlexibleColumnLayout>
+</mvc:View>

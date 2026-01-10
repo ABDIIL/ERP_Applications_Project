@@ -34,6 +34,10 @@ sap.ui.define([
       this.getOwnerComponent().getRouter().navTo("RouteArtiestCreate");
     },
 
+    naarOrders: function () {
+      this.getOwnerComponent().getRouter().navTo("RouteOrders");
+    },
+
     bijZoekVerandering: function () {
       this._pasFiltersEnSorteringToe();
     },

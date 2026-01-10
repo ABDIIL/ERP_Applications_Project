@@ -49,7 +49,8 @@
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
-        "sap.ui.layout": {}
+        "sap.ui.layout": {},
+        "sap.f": {}
       }
     },
     "contentDensities": {
@@ -101,6 +102,13 @@
           ]
         },
         {
+          "name": "RouteOrders",
+          "pattern": "orders",
+          "target": [
+            "TargetOrders"
+          ]
+        },
+        {
           "name": "RouteArtiestCreate",
           "pattern": "artiest/nieuw",
           "target": [
@@ -126,6 +134,10 @@
         "TargetArtiestManagement": {
           "id": "ArtiestManagement",
           "name": "ArtiestManagement"
+        },
+        "TargetOrders": {
+          "id": "OrderManagement",
+          "name": "OrderManagement"
         },
         "TargetArtiestDetail": {
           "id": "ArtiestDetail",
