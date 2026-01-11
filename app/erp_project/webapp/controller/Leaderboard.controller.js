@@ -8,9 +8,7 @@ sap.ui.define([
 
   return Controller.extend("my.project.erpproject.controller.Leaderboard", {
     onInit: function () {
-      var oVM = new JSONModel({
-        items: []
-      });
+      var oVM = new JSONModel({ items: [] });
       this.getView().setModel(oVM, "leaderboard");
 
       this._aAllItems = [];
@@ -20,6 +18,16 @@ sap.ui.define([
         oSort.setSelectedKey("avgRating");
       }
 
+      var oRouter = this.getOwnerComponent().getRouter();
+      var oRoute = oRouter.getRoute("RouteLeaderboard");
+      if (oRoute) {
+        oRoute.attachPatternMatched(this._onRouteMatched, this);
+      }
+
+      this._loadLeaderboard();
+    },
+
+    _onRouteMatched: function () {
       this._loadLeaderboard();
     },
 
@@ -66,9 +74,7 @@ sap.ui.define([
         return;
       }
 
-      this.getOwnerComponent().getRouter().navTo("RouteArtiestDetail", {
-        ID: iID
-      });
+      this.getOwnerComponent().getRouter().navTo("RouteArtiestDetail", { ID: iID });
     },
 
     _loadLeaderboard: function () {
@@ -78,26 +84,16 @@ sap.ui.define([
         return;
       }
 
-      var oListBinding;
-      try {
-        oListBinding = oModel.bindList("/Artiesten", null, null, null, {
-          $expand: "reviews"
-        });
-      } catch (e) {
-        MessageBox.error("Kon OData binding niet opzetten voor Artiesten.");
-        /* eslint-disable no-console */
-        console.error("Leaderboard bindList error:", e);
-        /* eslint-enable no-console */
-        return;
-      }
-
       var that = this;
-      oListBinding.requestContexts(0, Infinity).then(function (aContexts) {
-        var aItems = aContexts.map(function (oCtx) {
-          return oCtx.getObject();
-        });
 
-        that._aAllItems = that._buildLeaderboardItems(aItems);
+      Promise.all([
+        this._requestAll(oModel, "/Artiesten", { $$groupId: "$direct" }),
+        this._requestAll(oModel, "/Reviews", { $expand: "artiest", $$groupId: "$direct" })
+      ]).then(function (aResults) {
+        var aArtiesten = aResults[0] || [];
+        var aReviews = aResults[1] || [];
+
+        that._aAllItems = that._buildLeaderboardFromReviews(aArtiesten, aReviews);
         that._applyClientFilters();
       }).catch(function (err) {
         MessageBox.error("Fout bij laden van leaderboard data.");
@@ -107,21 +103,57 @@ sap.ui.define([
       });
     },
 
-    _buildLeaderboardItems: function (aArtiesten) {
-      var aResult = (aArtiesten || []).map(function (a) {
-        var aReviews = (a && a.reviews) ? a.reviews : [];
-        var iCount = Array.isArray(aReviews) ? aReviews.length : 0;
+    _requestAll: function (oModel, sPath, mParameters) {
+      var oListBinding;
+      try {
+        oListBinding = oModel.bindList(sPath, null, null, null, mParameters || {});
+      } catch (e) {
+        return Promise.reject(e);
+      }
 
-        var fAvg = 0;
-        if (iCount > 0) {
-          var iSum = aReviews.reduce(function (acc, r) {
-            var v = (r && r.rating !== undefined && r.rating !== null) ? Number(r.rating) : 0;
-            return acc + (isNaN(v) ? 0 : v);
-          }, 0);
-          fAvg = iSum / iCount;
+      return oListBinding.requestContexts(0, Infinity).then(function (aCtx) {
+        return aCtx.map(function (c) { return c.getObject(); });
+      });
+    },
+
+    _buildLeaderboardFromReviews: function (aArtiesten, aReviews) {
+      var mArtiest = {};
+      (aArtiesten || []).forEach(function (a) {
+        if (a && a.ID !== undefined && a.ID !== null) {
+          mArtiest[a.ID] = a;
         }
+      });
 
-        // 1 decimaal (blijft numeriek -> RatingIndicator kan het tonen)
+      var mStats = {};
+      (aReviews || []).forEach(function (r) {
+        if (!r) { return; }
+
+        var iArtiestID = r.artiest_ID;
+        if (iArtiestID === undefined || iArtiestID === null) {
+          if (r.artiest && r.artiest.ID !== undefined && r.artiest.ID !== null) {
+            iArtiestID = r.artiest.ID;
+          }
+        }
+        if (iArtiestID === undefined || iArtiestID === null) { return; }
+
+        var v = (r.rating !== undefined && r.rating !== null) ? Number(r.rating) : 0;
+        if (isNaN(v)) { v = 0; }
+
+        if (!mStats[iArtiestID]) {
+          mStats[iArtiestID] = { sum: 0, count: 0 };
+        }
+        mStats[iArtiestID].sum += v;
+        mStats[iArtiestID].count += 1;
+
+        if (!mArtiest[iArtiestID] && r.artiest) {
+          mArtiest[iArtiestID] = r.artiest;
+        }
+      });
+
+      var aResult = (aArtiesten || []).map(function (a) {
+        var st = mStats[a.ID];
+        var iCount = st ? st.count : 0;
+        var fAvg = (iCount > 0) ? (st.sum / iCount) : 0;
         var fAvg1 = Math.round(fAvg * 10) / 10;
 
         return {
