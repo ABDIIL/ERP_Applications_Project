@@ -42,6 +42,10 @@ sap.ui.define([
       this.getOwnerComponent().getRouter().navTo("RouteLineUp");
     },
 
+    naarLeaderboard: function () {
+      this.getOwnerComponent().getRouter().navTo("RouteLeaderboard");
+    },
+
     bijZoekVerandering: function () {
       this._pasFiltersEnSorteringToe();
     },

@@ -1,0 +1,92 @@
+<mvc:View
+  controllerName="my.project.erpproject.controller.Leaderboard"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core">
+
+  <Page id="paginaLeaderboard" title="Leaderboard" showNavButton="true" navButtonPress=".onNavBack">
+    <content>
+
+      <VBox width="100%">
+
+        <OverflowToolbar>
+          <SearchField
+            id="zoekVeldLeaderboard"
+            width="16rem"
+            placeholder="Zoek op artiest"
+            liveChange=".onSearchLiveChange"
+            search=".onSearch" />
+
+          <ToolbarSpacer />
+
+          <Select id="filterGenreLeaderboard" width="12rem" change=".onGenreChange">
+            <core:Item key="" text="Alle genres" />
+            <core:Item key="TECHNO" text="Techno" />
+            <core:Item key="POP" text="Pop" />
+            <core:Item key="HARDSTYLE" text="Hardstyle" />
+            <core:Item key="INDIE" text="Indie" />
+            <core:Item key="HOUSE" text="House" />
+            <core:Item key="ANDERS" text="Anders" />
+          </Select>
+
+          <Select id="sorteerLeaderboard" width="16rem" change=".onSortChange">
+            <core:Item key="avgRating" text="Sorteer: gemiddelde rating (hoog-laag)" />
+            <core:Item key="reviewCount" text="Sorteer: aantal reviews (hoog-laag)" />
+          </Select>
+
+          <ToolbarSeparator />
+          <Button text="Vernieuwen" press=".onRefresh" />
+        </OverflowToolbar>
+
+        <Table
+          id="tabelLeaderboard"
+          inset="false"
+          items="{ path: 'leaderboard>/items' }">
+
+          <columns>
+            <Column width="6em" hAlign="Begin">
+              <Text text="Rank" />
+            </Column>
+            <Column minScreenWidth="Phone" demandPopin="true">
+              <Text text="Artiest" />
+            </Column>
+            <Column hAlign="Begin" minScreenWidth="Tablet" demandPopin="true">
+              <Text text="Gem. rating" />
+            </Column>
+            <Column hAlign="End" minScreenWidth="Tablet" demandPopin="true">
+              <Text text="# Reviews" />
+            </Column>
+            <Column minScreenWidth="Desktop" demandPopin="true">
+              <Text text="Land" />
+            </Column>
+          </columns>
+
+          <items>
+            <ColumnListItem type="Navigation" press=".onRowPress">
+              <cells>
+                <ObjectNumber number="{leaderboard>rank}" />
+
+                <ObjectIdentifier title="{leaderboard>artiestNaam}" text="{leaderboard>genre}" />
+
+                <RatingIndicator
+                  maxValue="5"
+                  value="{leaderboard>avgRating}"
+                  displayOnly="true"
+                  editable="false"
+                  iconSize="22px"
+                  tooltip="{= 'Gemiddelde rating: ' + ${leaderboard>avgRating} }" />
+
+                <ObjectNumber number="{leaderboard>reviewCount}" />
+
+                <Text text="{leaderboard>land}" />
+              </cells>
+            </ColumnListItem>
+          </items>
+
+        </Table>
+
+      </VBox>
+
+    </content>
+  </Page>
+</mvc:View>

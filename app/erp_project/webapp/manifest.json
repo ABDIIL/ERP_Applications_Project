@@ -116,6 +116,13 @@
           ]
         },
         {
+          "name": "RouteLeaderboard",
+          "pattern": "leaderboard",
+          "target": [
+            "TargetLeaderboard"
+          ]
+        },
+        {
           "name": "RouteArtiestCreate",
           "pattern": "artiest/nieuw",
           "target": [
@@ -149,6 +156,10 @@
         "TargetOrders": {
           "id": "OrderManagement",
           "name": "OrderManagement"
+        },
+        "TargetLeaderboard": {
+          "id": "Leaderboard",
+          "name": "Leaderboard"
         },
         "TargetArtiestDetail": {
           "id": "ArtiestDetail",
