@@ -41,6 +41,7 @@
           </Select>
 
           <ToolbarSeparator />
+          <Button text="Line-up" press=".naarLineUp" />
           <Button text="Orders" press=".naarOrders" />
           <Button text="Nieuwe artiest" type="Emphasized" press=".onNewArtiest" />
         </OverflowToolbar>

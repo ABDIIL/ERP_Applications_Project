@@ -102,6 +102,13 @@
           ]
         },
         {
+          "name": "RouteLineUp",
+          "pattern": "lineup",
+          "target": [
+            "TargetLineUp"
+          ]
+        },
+        {
           "name": "RouteOrders",
           "pattern": "orders",
           "target": [
@@ -134,6 +141,10 @@
         "TargetArtiestManagement": {
           "id": "ArtiestManagement",
           "name": "ArtiestManagement"
+        },
+        "TargetLineUp": {
+          "id": "LineUp",
+          "name": "LineUp"
         },
         "TargetOrders": {
           "id": "OrderManagement",

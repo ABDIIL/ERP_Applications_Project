@@ -1,0 +1,37 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form">
+  <Dialog
+    id="dlgOptredenDetails"
+    title="Optreden details"
+    draggable="true"
+    resizable="true"
+    class="sapUiResponsivePadding--header sapUiResponsivePadding--content sapUiResponsivePadding--footer">
+
+    <content>
+      <f:SimpleForm editable="false" layout="ResponsiveGridLayout">
+        <f:content>
+          <Label text="Artiest" />
+          <Text text="{details>/artiestNaam}" />
+
+          <Label text="Genre" />
+          <Text text="{details>/genre}" />
+
+          <Label text="Stage" />
+          <Text text="{details>/stageNaam}" />
+
+          <Label text="Datum" />
+          <Text text="{details>/datum}" />
+
+          <Label text="Start" />
+          <Text text="{details>/startTijd}" />
+
+          <Label text="Einde" />
+          <Text text="{details>/eindTijd}" />
+        </f:content>
+      </f:SimpleForm>
+    </content>
+
+    <beginButton>
+      <Button text="Sluiten" press=".onCloseDetails" />
+    </beginButton>
+  </Dialog>
+</core:FragmentDefinition>

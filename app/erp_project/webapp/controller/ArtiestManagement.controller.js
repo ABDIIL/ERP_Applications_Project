@@ -38,6 +38,10 @@ sap.ui.define([
       this.getOwnerComponent().getRouter().navTo("RouteOrders");
     },
 
+    naarLineUp: function () {
+      this.getOwnerComponent().getRouter().navTo("RouteLineUp");
+    },
+
     bijZoekVerandering: function () {
       this._pasFiltersEnSorteringToe();
     },

@@ -1,0 +1,118 @@
+<mvc:View
+  controllerName="my.project.erpproject.controller.LineUp"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:unified="sap.ui.unified">
+
+  <Page id="paginaLineUp" title="Line-up &amp; Planning" showNavButton="true" navButtonPress=".onNavBack">
+    <content>
+
+      <VBox width="100%">
+
+        <OverflowToolbar>
+          <Label text="Stage" labelFor="selStage" />
+          <Select
+            id="selStage"
+            width="14rem"
+            selectedKey="{filters>/selectedStageId}"
+            change=".onFilterChange"
+            items="{filters>/stages}">
+            <core:Item key="{filters>ID}" text="{filters>stageNaam}" />
+          </Select>
+
+          <ToolbarSpacer width="0.5rem" />
+
+          <Label text="Artiest" labelFor="selArtiest" />
+          <Select
+            id="selArtiest"
+            width="16rem"
+            selectedKey="{filters>/selectedArtiestId}"
+            change=".onFilterChange"
+            items="{filters>/artiesten}">
+            <core:Item key="{filters>ID}" text="{filters>artiestNaam}" />
+          </Select>
+
+          <ToolbarSpacer />
+
+          <Label text="Weergave" labelFor="selView" />
+          <Select
+            id="selView"
+            width="12rem"
+            selectedKey="{lineup>/viewKey}"
+            change=".onViewChange"
+            items="{filters>/views}">
+            <core:Item key="{filters>key}" text="{filters>text}" />
+          </Select>
+
+          <ToolbarSeparator />
+          <Button text="Vernieuwen" press=".onRefresh" />
+        </OverflowToolbar>
+
+        <PlanningCalendar
+          id="pcLineUp"
+          startDate="{lineup>/startDate}"
+          viewKey="{lineup>/viewKey}"
+          appointmentSelect=".onAppointmentSelect"
+          rows="{lineup>/rows}"
+          showEmptyIntervalHeaders="true"
+          showIntervalHeaders="true"
+          stickyHeader="true">
+
+          <!-- Custom views volgens Demo Kit: intervalType + intervalsS/M/L -->
+          <views>
+            <!-- Dag: 1 dag zichtbaar -->
+            <PlanningCalendarView
+              key="Day"
+              intervalType="Day"
+              description="Dag"
+              intervalsS="1"
+              intervalsM="1"
+              intervalsL="1" />
+
+            <!-- Week: 7 dagen zichtbaar (custom) -->
+            <PlanningCalendarView
+              key="Week"
+              intervalType="Day"
+              description="Week"
+              intervalsS="3"
+              intervalsM="7"
+              intervalsL="7" />
+
+            <!-- Maand -->
+            <PlanningCalendarView
+              key="Month"
+              intervalType="Month"
+              description="Maand"
+              intervalsS="1"
+              intervalsM="1"
+              intervalsL="1" />
+          </views>
+
+          <rows>
+            <PlanningCalendarRow
+              title="{lineup>stageNaam}"
+              text="{lineup>stageSubText}"
+              appointments="{lineup>appointments}"
+              enableAppointmentsDragAndDrop="false"
+              enableAppointmentsResize="false"
+              icon="sap-icon://microphone">
+
+              <appointments>
+                <unified:CalendarAppointment
+                  title="{lineup>title}"
+                  text="{lineup>text}"
+                  startDate="{lineup>startDate}"
+                  endDate="{lineup>endDate}" />
+              </appointments>
+
+            </PlanningCalendarRow>
+          </rows>
+
+        </PlanningCalendar>
+
+      </VBox>
+
+    </content>
+  </Page>
+</mvc:View>
