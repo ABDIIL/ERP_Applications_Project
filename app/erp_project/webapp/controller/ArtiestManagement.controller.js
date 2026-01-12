@@ -33,7 +33,13 @@ sap.ui.define([
   return Controller.extend("my.project.erpproject.controller.ArtiestManagement", {
     onInit: function () {
       this.byId("sorteerKeuze").setSelectedKey("artiestNaam");
-      this._pasFiltersEnSorteringToe();
+      // Niet vroeg filteren; user acties triggeren dit sowieso.
+      // Maar voor zekerheid na eerste render ook:
+      this.getView().addEventDelegate({
+        onAfterRendering: function () {
+          this._pasFiltersEnSorteringToe();
+        }.bind(this)
+      });
     },
 
     // ===== Formatters voor tags (max 3) =====
@@ -114,7 +120,7 @@ sap.ui.define([
         aFilters.push(new Filter("artiestNaam", FilterOperator.Contains, sZoekterm));
       }
 
-      // ✅ multi-genre support: "TECHNO, HOUSE" => filter met Contains
+      // ✅ multi-genre: "TECHNO, HOUSE" => Contains werkt
       if (sGenre) {
         aFilters.push(new Filter("genre", FilterOperator.Contains, sGenre));
       }
@@ -123,7 +129,8 @@ sap.ui.define([
         aFilters.push(new Filter("land", FilterOperator.Contains, sLand));
       }
 
-      oBinding.filter(aFilters);
+      // ✅ BELANGRIJK (OData V4): zet als Application-filters
+      oBinding.filter(aFilters, "Application");
 
       var oSorter;
       if (sSorteer === "populariteit") {
@@ -132,7 +139,8 @@ sap.ui.define([
         oSorter = new Sorter("artiestNaam", false);
       }
 
-      oBinding.sort([oSorter]);
+      // ✅ sorteren
+      oBinding.sort(oSorter);
     }
   });
 });
