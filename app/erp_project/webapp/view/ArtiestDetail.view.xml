@@ -14,26 +14,25 @@
 
     <content>
 
-      <!-- Uitbreiding: profielkaart (Avatar + label + social links + genre tags) -->
+      <!-- Profielkaart -->
       <Panel
         id="profileCard"
-        class="sapUiSmallMarginBottom sapUiResponsivePadding--content"
+        class="profileCard sapUiSmallMarginBottom sapUiResponsivePadding--content"
         expandable="false">
         <content>
           <HBox alignItems="Center" justifyContent="Start" width="100%">
 
             <Avatar
-  displayShape="Circle"
-  displaySize="XL"
-  initials="{path: 'artiestNaam', formatter: '.formatInitials'}"
-  fallbackIcon="sap-icon://person-placeholder" />
-
+              displayShape="Circle"
+              displaySize="XL"
+              initials="{path: 'artiestNaam', formatter: '.formatInitials'}"
+              fallbackIcon="sap-icon://person-placeholder" />
 
             <VBox class="sapUiSmallMarginBegin" width="100%">
               <Title text="{artiestNaam}" level="H2" />
 
               <ObjectStatus
-                text="{parts: [{path: 'populariteit'}, {path: 'vm>/avgRating'}], formatter: '.formatArtistLabel'}"
+                text="{path: 'populariteit', formatter: '.formatArtistLabel'}"
                 state="{path: 'populariteit', formatter: '.formatArtistLabelState'}" />
 
               <HBox class="sapUiTinyMarginTop" wrap="Wrap" alignItems="Center">
@@ -48,18 +47,29 @@
                   target="_blank" />
               </HBox>
 
-              <HBox class="sapUiTinyMarginTop" alignItems="Center" width="100%">
+              <!-- Genre tags (max 3) -->
+              <HBox class="sapUiTinyMarginTop genreTags" wrap="Wrap" alignItems="Center" width="100%">
                 <Label text="Genres" class="sapUiTinyMarginEnd" />
-                <MultiInput
-                  id="miGenres"
-                  width="100%"
-                  editable="false"
-                  tokens="{path: 'vm>/genreTokens'}">
-                  <tokens>
-                    <Token text="{vm>text}" editable="false" />
-                  </tokens>
-                </MultiInput>
+
+                <ObjectStatus
+                  inverted="true"
+                  text="{path: 'genre', formatter: '.formatGenre1'}"
+                  state="{path: 'genre', formatter: '.formatGenreState1'}"
+                  visible="{path: 'genre', formatter: '.formatGenreVisible1'}" />
+
+                <ObjectStatus
+                  inverted="true"
+                  text="{path: 'genre', formatter: '.formatGenre2'}"
+                  state="{path: 'genre', formatter: '.formatGenreState2'}"
+                  visible="{path: 'genre', formatter: '.formatGenreVisible2'}" />
+
+                <ObjectStatus
+                  inverted="true"
+                  text="{path: 'genre', formatter: '.formatGenre3'}"
+                  state="{path: 'genre', formatter: '.formatGenreState3'}"
+                  visible="{path: 'genre', formatter: '.formatGenreVisible3'}" />
               </HBox>
+
             </VBox>
 
           </HBox>

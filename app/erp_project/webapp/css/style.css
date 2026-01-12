@@ -1,1 +1,15 @@
-/* Enter your custom styles here */
+/* Profile card iets aanpassen, visueel! */
+.profileCard {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.profileCard .sapMPanelContent {
+  border-radius: 12px;
+}
+
+/* Genre tags spacing */
+.genreTags .sapMObjStatus {
+  margin-right: 0.25rem;
+  margin-top: 0.125rem;
+}

@@ -6,12 +6,48 @@ sap.ui.define([
 ], function (Controller, Filter, FilterOperator, Sorter) {
   "use strict";
 
+  function _splitGenres(sGenre) {
+    if (!sGenre) {
+      return [];
+    }
+    return String(sGenre)
+      .split(",")
+      .map(function (g) { return g.trim(); })
+      .filter(Boolean)
+      .slice(0, 3);
+  }
+
+  function _stateForGenre(s) {
+    var g = String(s || "").toUpperCase();
+    switch (g) {
+      case "TECHNO": return "Information";
+      case "HOUSE": return "Success";
+      case "POP": return "Success";
+      case "INDIE": return "Warning";
+      case "HARDSTYLE": return "Error";
+      case "ANDERS": return "None";
+      default: return "None";
+    }
+  }
+
   return Controller.extend("my.project.erpproject.controller.ArtiestManagement", {
     onInit: function () {
-      // standaard sortering op naam
       this.byId("sorteerKeuze").setSelectedKey("artiestNaam");
       this._pasFiltersEnSorteringToe();
     },
+
+    // ===== Formatters voor tags (max 3) =====
+    formatGenre1: function (sGenre) { return _splitGenres(sGenre)[0] || ""; },
+    formatGenre2: function (sGenre) { return _splitGenres(sGenre)[1] || ""; },
+    formatGenre3: function (sGenre) { return _splitGenres(sGenre)[2] || ""; },
+
+    formatGenreVisible1: function (sGenre) { return !!(_splitGenres(sGenre)[0]); },
+    formatGenreVisible2: function (sGenre) { return !!(_splitGenres(sGenre)[1]); },
+    formatGenreVisible3: function (sGenre) { return !!(_splitGenres(sGenre)[2]); },
+
+    formatGenreState1: function (sGenre) { return _stateForGenre(_splitGenres(sGenre)[0]); },
+    formatGenreState2: function (sGenre) { return _stateForGenre(_splitGenres(sGenre)[1]); },
+    formatGenreState3: function (sGenre) { return _stateForGenre(_splitGenres(sGenre)[2]); },
 
     onArtiestPress: function (oEvent) {
       var oItem = oEvent.getSource();
@@ -25,9 +61,7 @@ sap.ui.define([
         return;
       }
 
-      this.getOwnerComponent().getRouter().navTo("RouteArtiestDetail", {
-        ID: iID
-      });
+      this.getOwnerComponent().getRouter().navTo("RouteArtiestDetail", { ID: iID });
     },
 
     onNewArtiest: function () {
@@ -79,9 +113,12 @@ sap.ui.define([
       if (sZoekterm) {
         aFilters.push(new Filter("artiestNaam", FilterOperator.Contains, sZoekterm));
       }
+
+      // ✅ multi-genre support: "TECHNO, HOUSE" => filter met Contains
       if (sGenre) {
-        aFilters.push(new Filter("genre", FilterOperator.EQ, sGenre));
+        aFilters.push(new Filter("genre", FilterOperator.Contains, sGenre));
       }
+
       if (sLand) {
         aFilters.push(new Filter("land", FilterOperator.Contains, sLand));
       }
@@ -90,7 +127,7 @@ sap.ui.define([
 
       var oSorter;
       if (sSorteer === "populariteit") {
-        oSorter = new Sorter("populariteit", true); // true = aflopend
+        oSorter = new Sorter("populariteit", true);
       } else {
         oSorter = new Sorter("artiestNaam", false);
       }

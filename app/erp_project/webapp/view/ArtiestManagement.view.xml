@@ -52,7 +52,7 @@
           items="{ path: '/Artiesten' }">
           <columns>
             <Column><Text text="Naam" /></Column>
-            <Column><Text text="Genre" /></Column>
+            <Column><Text text="Genres" /></Column>
             <Column><Text text="Land" /></Column>
             <Column hAlign="End"><Text text="Populariteit" /></Column>
           </columns>
@@ -61,7 +61,26 @@
             <ColumnListItem type="Navigation" press=".onArtiestPress">
               <cells>
                 <Text text="{artiestNaam}" />
-                <Text text="{genre}" />
+
+                <!-- max 3 tags -->
+                <HBox class="genreTags" wrap="Wrap">
+                  <ObjectStatus
+                    inverted="true"
+                    text="{path: 'genre', formatter: '.formatGenre1'}"
+                    state="{path: 'genre', formatter: '.formatGenreState1'}"
+                    visible="{path: 'genre', formatter: '.formatGenreVisible1'}" />
+                  <ObjectStatus
+                    inverted="true"
+                    text="{path: 'genre', formatter: '.formatGenre2'}"
+                    state="{path: 'genre', formatter: '.formatGenreState2'}"
+                    visible="{path: 'genre', formatter: '.formatGenreVisible2'}" />
+                  <ObjectStatus
+                    inverted="true"
+                    text="{path: 'genre', formatter: '.formatGenre3'}"
+                    state="{path: 'genre', formatter: '.formatGenreState3'}"
+                    visible="{path: 'genre', formatter: '.formatGenreVisible3'}" />
+                </HBox>
+
                 <Text text="{land}" />
                 <ObjectNumber number="{populariteit}" />
               </cells>

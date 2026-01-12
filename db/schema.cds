@@ -30,7 +30,7 @@ type ProductCategorie : String enum {
 entity Artiest {
   key ID: Integer;
   artiestNaam: String;
-  genre: Genre;
+  genre: String(255);
   land: String;
   nationaliteit: String;
   populariteit: Double;
