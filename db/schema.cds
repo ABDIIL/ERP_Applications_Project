@@ -30,14 +30,39 @@ type ProductCategorie : String enum {
 entity Artiest {
   key ID: Integer;
   artiestNaam: String;
-  genre: String(255);
+
+  genre: Genre;
+
   land: String;
   nationaliteit: String;
+
+  // blijft: nodig voor artist-overview "popularity score"
   populariteit: Double;
+
   biografie: String(2000);
 
   reviews   : Composition of many Review   on reviews.artiest = $self;
   optredens : Association to many Optreden on optredens.artiest = $self;
+
+  // tijdreeks voor trendgrafiek (meerdere punten)
+  populariteitPunten : Composition of many PopulariteitPunt
+    on populariteitPunten.artiest = $self;
+}
+
+entity PopulariteitPunt {
+  key ID: Integer;
+
+  // tijd-as voor microchart
+  datum: Date;
+
+  // de score op dat moment
+  score: Double;
+
+  // verplicht: hoort bij 1 artiest
+  artiest: Association to Artiest;
+
+  // optioneel: punt kan gekoppeld zijn aan een optreden (bv. na optreden score update)
+  optreden: Association to Optreden;
 }
 
 entity Review {
@@ -111,4 +136,8 @@ entity Optreden {
 
   startTijd: Time;
   eindTijd: Time;
+
+  // (optioneel) inverse link, niet nodig maar handig
+  populariteitPunten: Association to many PopulariteitPunt
+    on populariteitPunten.optreden = $self;
 }

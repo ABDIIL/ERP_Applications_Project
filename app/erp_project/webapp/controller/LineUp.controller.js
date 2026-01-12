@@ -13,29 +13,27 @@ sap.ui.define([
     onInit: function () {
       var oView = this.getView();
 
-      // Filters model
+      this._oFixedStart = new Date(2026, 0, 1, 11, 0, 0);
+
       var oFiltersModel = new JSONModel({
         stages: [{ ID: "", stageNaam: "Alle stages" }],
         artiesten: [{ ID: "", artiestNaam: "Alle artiesten" }],
         views: [
           { key: "Day", text: "Dag" },
-          { key: "Week", text: "Week" },
-          { key: "Month", text: "Maand" }
+          { key: "Week", text: "Week" }
         ],
         selectedStageId: "",
         selectedArtiestId: ""
       });
       oView.setModel(oFiltersModel, "filters");
 
-      // Line-up model
       var oLineUpModel = new JSONModel({
-        startDate: new Date(),
+        startDate: this._oFixedStart,
         viewKey: "Day",
         rows: []
       });
       oView.setModel(oLineUpModel, "lineup");
 
-      // Details model (for fragment)
       this._oDetailsModel = new JSONModel({});
       oView.setModel(this._oDetailsModel, "details");
 
@@ -46,15 +44,12 @@ sap.ui.define([
       try {
         await this._loadFilterData();
         await this._loadLineUp();
+        this._applyFixedStart();
       } catch (e) {
-        // Debug in console
-        // eslint-disable-next-line no-console
         console.error("LineUp init error:", e);
         MessageBox.error("Fout bij initialisatie van Line-up.");
       }
     },
-
-    // --- Navigation ----------------------------------------------------------
 
     onNavBack: function () {
       var oHistory = History.getInstance();
@@ -65,23 +60,21 @@ sap.ui.define([
         return;
       }
 
-      // Fallback: adjust route name if your project uses a different one
       UIComponent.getRouterFor(this).navTo("RouteArtiestManagement", {}, true);
     },
 
-    // --- UI handlers ---------------------------------------------------------
-
     onRefresh: function () {
-      this._loadLineUp();
+      this._loadLineUp().then(this._applyFixedStart.bind(this));
     },
 
     onFilterChange: function () {
-      this._loadLineUp();
+      this._loadLineUp().then(this._applyFixedStart.bind(this));
     },
 
     onViewChange: function (oEvent) {
       var sKey = oEvent.getSource().getSelectedKey();
       this.getView().getModel("lineup").setProperty("/viewKey", sKey);
+      this._applyFixedStart();
     },
 
     onAppointmentSelect: function (oEvent) {
@@ -120,14 +113,22 @@ sap.ui.define([
       this._oDialog.open();
     },
 
-    // --- OData model access (FIX) -------------------------------------------
+    _applyFixedStart: function () {
+      var oCal = this.byId("pcLineUp");
+      var oLineUpModel = this.getView().getModel("lineup");
+
+      if (oLineUpModel) {
+        oLineUpModel.setProperty("/startDate", this._oFixedStart);
+      }
+      if (oCal && oCal.setStartDate) {
+        oCal.setStartDate(this._oFixedStart);
+      }
+    },
 
     _getODataModel: function () {
       var oComponent = this.getOwnerComponent();
-      return oComponent ? oComponent.getModel() : null; // default model ""
+      return oComponent ? oComponent.getModel() : null;
     },
-
-    // --- Data loading --------------------------------------------------------
 
     _loadFilterData: async function () {
       var oModel = this._getODataModel();
@@ -188,7 +189,6 @@ sap.ui.define([
         10000
       );
 
-      // Group by stage (rows)
       var mByStage = new Map();
 
       aOptredens.forEach(function (oOptreden) {
@@ -196,7 +196,6 @@ sap.ui.define([
         var oArtiest = oOptreden.artiest;
         var oFestivalDag = oOptreden.festivalDag;
 
-        // If expand/FKs not OK, skip
         if (!oStage || !oArtiest || !oFestivalDag) {
           return;
         }
@@ -217,13 +216,14 @@ sap.ui.define([
           return;
         }
 
+        var sTime = this._fmtTimeRange(oOptreden.startTijd, oOptreden.eindTijd);
+        var sGenre = (oArtiest.genre || "").toString();
+
         mByStage.get(sStageKey).appointments.push({
-          title: oArtiest.artiestNaam,
-          text: oArtiest.genre,
+          title: oArtiest.artiestNaam + "  (" + sTime + ")",
+          text: sGenre,
           startDate: oDates.start,
           endDate: oDates.end,
-
-          // For details fragment
           artiestNaam: oArtiest.artiestNaam,
           genre: oArtiest.genre,
           stageNaam: oStage.stageNaam,
@@ -245,20 +245,9 @@ sap.ui.define([
         });
       });
 
-      // Set start date to first appointment (if any)
-      var oStart = new Date();
-      for (var i = 0; i < aRows.length; i++) {
-        if (aRows[i].appointments && aRows[i].appointments.length) {
-          oStart = aRows[i].appointments[0].startDate;
-          break;
-        }
-      }
-
       oLineUpModel.setProperty("/rows", aRows);
-      oLineUpModel.setProperty("/startDate", oStart);
+      oLineUpModel.setProperty("/startDate", this._oFixedStart);
     },
-
-    // --- OData V4 read helper ------------------------------------------------
 
     _requestAll: async function (oModel, sPath, mQueryOptions, aFilters, iMax) {
       var mParameters = Object.assign(
@@ -273,8 +262,6 @@ sap.ui.define([
         return oCtx.getObject();
       });
     },
-
-    // --- Date/time building --------------------------------------------------
 
     _buildStartEnd: function (sDate, sStartTime, sEndTime) {
       if (!sDate || !sStartTime || !sEndTime) {
@@ -297,7 +284,6 @@ sap.ui.define([
         return null;
       }
 
-      // If end <= start, treat as crossing midnight
       if (oEnd.getTime() <= oStart.getTime()) {
         oEnd = new Date(oEnd.getTime());
         oEnd.setDate(oEnd.getDate() + 1);
@@ -316,7 +302,6 @@ sap.ui.define([
       var iMin = parseInt(aParts[1], 10);
 
       var sSecPart = aParts[2] || "0";
-      // handle possible "SS.sss"
       var iSec = parseInt(String(sSecPart).split(".")[0], 10);
 
       if (isNaN(iH) || isNaN(iMin) || isNaN(iSec)) {
@@ -324,6 +309,20 @@ sap.ui.define([
       }
 
       return new Date(iY, iM, iD, iH, iMin, iSec);
+    },
+
+    _fmtTimeRange: function (sStartTime, sEndTime) {
+      var s1 = this._hhmm(sStartTime);
+      var s2 = this._hhmm(sEndTime);
+      return s1 + "–" + s2;
+    },
+
+    _hhmm: function (sTime) {
+      var a = String(sTime).split(":");
+      if (a.length < 2) {
+        return String(sTime);
+      }
+      return a[0].padStart(2, "0") + ":" + a[1].padStart(2, "0");
     }
   });
 });

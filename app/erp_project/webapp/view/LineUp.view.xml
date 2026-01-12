@@ -5,9 +5,14 @@
   xmlns:core="sap.ui.core"
   xmlns:unified="sap.ui.unified">
 
-  <Page id="paginaLineUp" title="Line-up &amp; Planning" showNavButton="true" navButtonPress=".onNavBack">
-    <content>
+  <Page
+    id="paginaLineUp"
+    title="Line-up &amp; Planning"
+    showNavButton="true"
+    navButtonPress=".onNavBack"
+    class="sapUiSizeCozy">
 
+    <content>
       <VBox width="100%">
 
         <OverflowToolbar>
@@ -51,6 +56,7 @@
 
         <PlanningCalendar
           id="pcLineUp"
+          class="lineUpCalendar"
           startDate="{lineup>/startDate}"
           viewKey="{lineup>/viewKey}"
           appointmentSelect=".onAppointmentSelect"
@@ -59,18 +65,15 @@
           showIntervalHeaders="true"
           stickyHeader="true">
 
-          <!-- Custom views volgens Demo Kit: intervalType + intervalsS/M/L -->
           <views>
-            <!-- Dag: 1 dag zichtbaar -->
             <PlanningCalendarView
               key="Day"
-              intervalType="Day"
+              intervalType="Hour"
               description="Dag"
-              intervalsS="1"
-              intervalsM="1"
-              intervalsL="1" />
+              intervalsS="12"
+              intervalsM="15"
+              intervalsL="15" />
 
-            <!-- Week: 7 dagen zichtbaar (custom) -->
             <PlanningCalendarView
               key="Week"
               intervalType="Day"
@@ -78,15 +81,6 @@
               intervalsS="3"
               intervalsM="7"
               intervalsL="7" />
-
-            <!-- Maand -->
-            <PlanningCalendarView
-              key="Month"
-              intervalType="Month"
-              description="Maand"
-              intervalsS="1"
-              intervalsM="1"
-              intervalsL="1" />
           </views>
 
           <rows>
@@ -112,7 +106,6 @@
         </PlanningCalendar>
 
       </VBox>
-
     </content>
   </Page>
 </mvc:View>

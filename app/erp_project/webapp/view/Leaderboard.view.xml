@@ -1,3 +1,4 @@
+<!-- webapp/view/Leaderboard.view.xml -->
 <mvc:View
   controllerName="my.project.erpproject.controller.Leaderboard"
   xmlns:mvc="sap.ui.core.mvc"
@@ -7,7 +8,6 @@
 
   <Page id="paginaLeaderboard" title="Leaderboard" showNavButton="true" navButtonPress=".onNavBack">
     <content>
-
       <VBox width="100%">
 
         <OverflowToolbar>
@@ -84,9 +84,18 @@
 
                 <Text text="{leaderboard>land}" />
 
-                <mc:LineMicroChart size="Responsive" height="18px">
+                <!-- FIX: schaal per artiest zodat het geen “platte” lijn is -->
+                <mc:LineMicroChart
+                  size="Responsive"
+                  height="18px"
+                  minYValue="{leaderboard>trendMin}"
+                  maxYValue="{leaderboard>trendMax}">
                   <mc:lines>
-                    <mc:LineMicroChartLine points="{path:'leaderboard>trendPoints', templateShareable:false}">
+                    <mc:LineMicroChartLine
+                      points="{
+                        path: 'leaderboard>trendPoints',
+                        templateShareable: false
+                      }">
                       <mc:points>
                         <mc:LineMicroChartPoint x="{leaderboard>x}" y="{leaderboard>y}" />
                       </mc:points>
@@ -101,7 +110,6 @@
         </Table>
 
       </VBox>
-
     </content>
   </Page>
 </mvc:View>
