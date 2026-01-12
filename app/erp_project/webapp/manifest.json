@@ -99,82 +99,53 @@
         {
           "name": "RouteArtiestManagement",
           "pattern": ":?query:",
-          "target": [
-            "TargetArtiestManagement"
-          ]
+          "target": ["TargetArtiestManagement"]
         },
         {
           "name": "RouteLineUp",
           "pattern": "lineup",
-          "target": [
-            "TargetLineUp"
-          ]
+          "target": ["TargetLineUp"]
         },
         {
           "name": "RouteOrders",
           "pattern": "orders",
-          "target": [
-            "TargetOrders"
-          ]
+          "target": ["TargetOrders"]
+        },
+        {
+          "name": "RouteNewOrder",
+          "pattern": "orders/new",
+          "target": ["TargetNewOrder"]
         },
         {
           "name": "RouteLeaderboard",
           "pattern": "leaderboard",
-          "target": [
-            "TargetLeaderboard"
-          ]
+          "target": ["TargetLeaderboard"]
         },
         {
           "name": "RouteArtiestCreate",
           "pattern": "artiest/nieuw",
-          "target": [
-            "TargetArtiestCreate"
-          ]
+          "target": ["TargetArtiestCreate"]
         },
         {
           "name": "RouteArtiestDetail",
           "pattern": "artiest/{ID}",
-          "target": [
-            "TargetArtiestDetail"
-          ]
+          "target": ["TargetArtiestDetail"]
         },
         {
           "name": "RouteERP_PROJECT_VIEW",
           "pattern": "erp:?query:",
-          "target": [
-            "TargetERP_PROJECT_VIEW"
-          ]
+          "target": ["TargetERP_PROJECT_VIEW"]
         }
       ],
       "targets": {
-        "TargetArtiestManagement": {
-          "id": "ArtiestManagement",
-          "name": "ArtiestManagement"
-        },
-        "TargetLineUp": {
-          "id": "LineUp",
-          "name": "LineUp"
-        },
-        "TargetOrders": {
-          "id": "OrderManagement",
-          "name": "OrderManagement"
-        },
-        "TargetLeaderboard": {
-          "id": "Leaderboard",
-          "name": "Leaderboard"
-        },
-        "TargetArtiestDetail": {
-          "id": "ArtiestDetail",
-          "name": "ArtiestDetail"
-        },
-        "TargetArtiestCreate": {
-          "id": "ArtiestCreate",
-          "name": "ArtiestCreate"
-        },
-        "TargetERP_PROJECT_VIEW": {
-          "id": "ERP_PROJECT_VIEW",
-          "name": "ERP_PROJECT_VIEW"
-        }
+        "TargetArtiestManagement": { "id": "ArtiestManagement", "name": "ArtiestManagement" },
+        "TargetLineUp": { "id": "LineUp", "name": "LineUp" },
+        "TargetOrders": { "id": "OrderManagement", "name": "OrderManagement" },
+        "TargetNewOrder": { "id": "NewOrder", "name": "NewOrder" },
+        "TargetLeaderboard": { "id": "Leaderboard", "name": "Leaderboard" },
+        "TargetArtiestDetail": { "id": "ArtiestDetail", "name": "ArtiestDetail" },
+        "TargetArtiestCreate": { "id": "ArtiestCreate", "name": "ArtiestCreate" },
+        "TargetERP_PROJECT_VIEW": { "id": "ERP_PROJECT_VIEW", "name": "ERP_PROJECT_VIEW" }
       }
     },
     "rootView": {

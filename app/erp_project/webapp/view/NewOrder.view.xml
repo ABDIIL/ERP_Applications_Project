@@ -1,0 +1,204 @@
+<mvc:View
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  controllerName="my.project.erpproject.controller.NewOrder">
+
+  <Page title="Order toevoegen" showNavButton="true" navButtonPress="onCancel">
+    <content>
+
+      <NavContainer id="wizardNavContainer" height="100%">
+        <pages>
+
+          <Page id="wizardContentPage" showHeader="false">
+            <content>
+
+              <Wizard id="orderWizard"
+                class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
+                complete="wizardCompletedHandler">
+
+                <WizardStep id="stepCustomer" title="Stap 1: Kies klant" validated="false" activate="onStepCustomerActivate">
+                  <VBox width="100%" class="sapUiSmallMarginTop">
+
+                    <Title text="Klant" level="H4" />
+
+                    <Label text="Bestaande klant" />
+                    <Select
+                      id="selKlant"
+                      width="100%"
+                      selectedKey="{vm>/klant_ID}"
+                      change="onKlantSelectChange"
+                      items="{ path: '/Klanten' }">
+                      <core:Item key="{ID}" text="{klantNaam}" />
+                    </Select>
+
+                    <Label class="sapUiSmallMarginTop" text="Of voeg nieuwe klant toe" />
+                    <Input
+                      id="inpNieuweKlant"
+                      value="{vm>/newKlantNaam}"
+                      liveChange="onNewKlantNaamChange"
+                      placeholder="Nieuwe klantnaam" />
+
+                    <MessageStrip
+                      class="sapUiSmallMarginTop"
+                      visible="{= !${vm>/klant_ID} &amp;&amp; !${vm>/newKlantNaam} }"
+                      text="Kies een klant of vul een nieuwe klantnaam in om verder te gaan."
+                      type="Information"
+                      showIcon="true" />
+                  </VBox>
+                </WizardStep>
+
+                <WizardStep id="stepType" title="Stap 2: Kies ordertype" validated="false">
+                  <VBox width="100%" class="sapUiSmallMarginTop">
+                    <Label text="Ordertype" />
+                    <Select id="selOrderType" selectedKey="{vm>/orderType}" change="onOrderTypeChange">
+                      <core:Item key="TICKETS" text="Tickets" />
+                      <core:Item key="MERCHANDISE" text="Merchandise" />
+                      <core:Item key="FOOD_DRINKS" text="Food &amp; Drinks" />
+                    </Select>
+                  </VBox>
+                </WizardStep>
+
+                <WizardStep id="stepItems" title="Stap 3: Items toevoegen" validated="false" activate="onStepItemsActivate">
+                  <VBox width="100%" class="sapUiSmallMarginTop">
+
+                    <Label text="Item" />
+                    <Select
+                      id="selProduct"
+                      width="100%"
+                      selectedKey="{vm>/currentProductId}"
+                      change="onProductChange"
+                      items="{ path: '/Producten' }">
+                      <core:Item key="{ID}" text="{naam}" />
+                    </Select>
+
+                    <Label class="sapUiSmallMarginTop" text="Aantal" />
+                    <StepInput id="inpAantal" value="{vm>/currentAantal}" min="1" change="onAantalChange" />
+
+                    <Label class="sapUiSmallMarginTop" text="Prijs" />
+                    <Input value="{vm>/currentPrijs}" type="Number" editable="false" />
+
+                    <Toolbar class="sapUiSmallMarginTop">
+                      <ToolbarSpacer />
+                      <Button text="Voeg item toe" type="Emphasized" press="onAddItem" />
+                    </Toolbar>
+
+                    <Title class="sapUiSmallMarginTop" text="Items in order" level="H4" />
+
+                    <Table id="itemsTable" items="{vm>/items}" sticky="ColumnHeaders">
+                      <columns>
+                        <Column><Text text="Naam" /></Column>
+                        <Column hAlign="End"><Text text="Aantal" /></Column>
+                        <Column hAlign="End"><Text text="Prijs" /></Column>
+                        <Column hAlign="End"><Text text="Subtotaal" /></Column>
+                        <Column width="3rem" />
+                      </columns>
+                      <items>
+                        <ColumnListItem>
+                          <cells>
+                            <Text text="{vm>naam}" />
+                            <ObjectNumber number="{vm>aantal}" />
+                            <ObjectNumber number="{vm>eenheidsPrijs}" unit="€" />
+                            <ObjectNumber number="{vm>subtotaal}" unit="€" />
+                            <Button icon="sap-icon://delete" type="Transparent" press="onRemoveItem" />
+                          </cells>
+                        </ColumnListItem>
+                      </items>
+                    </Table>
+
+                    <MessageStrip
+                      class="sapUiSmallMarginTop"
+                      visible="{= ${vm>/items}.length === 0 }"
+                      text="Je moet minstens één item toevoegen."
+                      type="Error"
+                      showIcon="true" />
+                  </VBox>
+                </WizardStep>
+
+                <WizardStep id="stepReview" title="Stap 4: Samenvatting" validated="true">
+                  <VBox width="100%" class="sapUiSmallMarginTop">
+                    <ObjectStatus title="Klant" text="{vm>/klantDisplay}" />
+                    <ObjectStatus title="Ordertype" text="{vm>/orderType}" />
+
+                    <Table items="{vm>/items}" sticky="ColumnHeaders">
+                      <columns>
+                        <Column><Text text="Naam" /></Column>
+                        <Column hAlign="End"><Text text="Aantal" /></Column>
+                        <Column hAlign="End"><Text text="Prijs" /></Column>
+                        <Column hAlign="End"><Text text="Subtotaal" /></Column>
+                      </columns>
+                      <items>
+                        <ColumnListItem>
+                          <cells>
+                            <Text text="{vm>naam}" />
+                            <ObjectNumber number="{vm>aantal}" />
+                            <ObjectNumber number="{vm>eenheidsPrijs}" unit="€" />
+                            <ObjectNumber number="{vm>subtotaal}" unit="€" />
+                          </cells>
+                        </ColumnListItem>
+                      </items>
+                    </Table>
+
+                    <Toolbar class="sapUiSmallMarginTop">
+                      <ToolbarSpacer />
+                      <Title text="Totaal" level="H4" />
+                      <ObjectNumber number="{vm>/totaleBedrag}" unit="€" />
+                    </Toolbar>
+                  </VBox>
+                </WizardStep>
+
+              </Wizard>
+
+            </content>
+          </Page>
+
+          <Page id="wizardReviewPage" showHeader="false">
+            <content>
+              <VBox class="sapUiResponsivePadding--header sapUiResponsivePadding--content" width="100%">
+                <Title text="Overzicht" level="H3" />
+
+                <ObjectStatus title="Klant" text="{vm>/klantDisplay}" />
+                <ObjectStatus title="Ordertype" text="{vm>/orderType}" />
+
+                <Table items="{vm>/items}" sticky="ColumnHeaders">
+                  <columns>
+                    <Column><Text text="Naam" /></Column>
+                    <Column hAlign="End"><Text text="Aantal" /></Column>
+                    <Column hAlign="End"><Text text="Prijs" /></Column>
+                    <Column hAlign="End"><Text text="Subtotaal" /></Column>
+                  </columns>
+                  <items>
+                    <ColumnListItem>
+                      <cells>
+                        <Text text="{vm>naam}" />
+                        <ObjectNumber number="{vm>aantal}" />
+                        <ObjectNumber number="{vm>eenheidsPrijs}" unit="€" />
+                        <ObjectNumber number="{vm>subtotaal}" unit="€" />
+                      </cells>
+                    </ColumnListItem>
+                  </items>
+                </Table>
+
+                <Toolbar class="sapUiSmallMarginTop">
+                  <ToolbarSpacer />
+                  <Title text="Totaal" level="H4" />
+                  <ObjectNumber number="{vm>/totaleBedrag}" unit="€" />
+                </Toolbar>
+              </VBox>
+            </content>
+            <footer>
+              <Bar>
+                <contentRight>
+                  <Button text="Bevestigen &amp; aanmaken" type="Emphasized" press="onSubmit" />
+                  <Button text="Annuleren" press="onCancel" />
+                </contentRight>
+              </Bar>
+            </footer>
+          </Page>
+
+        </pages>
+      </NavContainer>
+
+    </content>
+  </Page>
+</mvc:View>

@@ -1,3 +1,4 @@
+// app/erp_project/webapp/controller/OrderManagement.controller.js
 sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/ui/model/json/JSONModel",
@@ -66,7 +67,7 @@ sap.ui.define([
     },
 
     onNewOrder: function () {
-      MessageToast.show("Nieuwe order: wizard komt hier (volgende stap).");
+      this.getOwnerComponent().getRouter().navTo("RouteNewOrder");
     },
 
     onPrintOrder: function () {
