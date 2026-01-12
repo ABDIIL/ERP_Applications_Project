@@ -51,7 +51,8 @@
         "sap.ui.core": {},
         "sap.ui.layout": {},
         "sap.f": {},
-        "sap.ui.export": {}
+        "sap.ui.export": {},
+        "sap.suite.ui.microchart": {}
       }
     },
     "contentDensities": {

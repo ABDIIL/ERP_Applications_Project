@@ -2,7 +2,8 @@
   controllerName="my.project.erpproject.controller.Leaderboard"
   xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.m"
-  xmlns:core="sap.ui.core">
+  xmlns:core="sap.ui.core"
+  xmlns:mc="sap.suite.ui.microchart">
 
   <Page id="paginaLeaderboard" title="Leaderboard" showNavButton="true" navButtonPress=".onNavBack">
     <content>
@@ -59,6 +60,9 @@
             <Column minScreenWidth="Desktop" demandPopin="true">
               <Text text="Land" />
             </Column>
+            <Column minScreenWidth="Tablet" demandPopin="true">
+              <Text text="Trend" />
+            </Column>
           </columns>
 
           <items>
@@ -79,6 +83,17 @@
                 <ObjectNumber number="{leaderboard>reviewCount}" />
 
                 <Text text="{leaderboard>land}" />
+
+                <mc:LineMicroChart size="Responsive" height="18px">
+                  <mc:lines>
+                    <mc:LineMicroChartLine points="{path:'leaderboard>trendPoints', templateShareable:false}">
+                      <mc:points>
+                        <mc:LineMicroChartPoint x="{leaderboard>x}" y="{leaderboard>y}" />
+                      </mc:points>
+                    </mc:LineMicroChartLine>
+                  </mc:lines>
+                </mc:LineMicroChart>
+
               </cells>
             </ColumnListItem>
           </items>

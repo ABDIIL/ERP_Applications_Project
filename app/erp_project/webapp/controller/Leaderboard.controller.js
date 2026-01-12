@@ -6,6 +6,60 @@ sap.ui.define([
 ], function (Controller, JSONModel, MessageBox, History) {
   "use strict";
 
+  function _toDateValue(s) {
+    // CAP Edm.Date komt typisch als "YYYY-MM-DD"
+    if (!s) {
+      return 0;
+    }
+    var t = Date.parse(String(s));
+    return isNaN(t) ? 0 : t;
+  }
+
+  function _buildTrendPoints(aReviews, fFallbackAvg) {
+    var a = (aReviews || []).slice();
+
+    if (!a.length) {
+      return [];
+    }
+
+    a.sort(function (r1, r2) {
+      return _toDateValue(r1.datum) - _toDateValue(r2.datum);
+    });
+
+    // laatste 6 reviews
+    if (a.length > 6) {
+      a = a.slice(a.length - 6);
+    }
+
+    // cumulatieve avg over tijd (mooier “momentum” dan losse ratings)
+    var sum = 0;
+    var points = [];
+    var n = a.length;
+
+    for (var i = 0; i < n; i++) {
+      var v = (a[i] && a[i].rating !== undefined && a[i].rating !== null) ? Number(a[i].rating) : 0;
+      if (isNaN(v)) {
+        v = 0;
+      }
+      sum += v;
+
+      var avg = sum / (i + 1);
+      // clamp 0..5
+      if (avg < 0) { avg = 0; }
+      if (avg > 5) { avg = 5; }
+
+      var x = (n === 1) ? 0 : Math.round(i * (100 / (n - 1)));
+      points.push({ x: x, y: Math && Math.round ? Math.round(avg * 10) / 10 : avg });
+    }
+
+    // als maar 1 punt: maak het “stabiel” met 2 punten (microchart tekent beter)
+    if (points.length === 1) {
+      points.push({ x: 100, y: (typeof fFallbackAvg === "number" ? fFallbackAvg : points[0].y) });
+    }
+
+    return points;
+  }
+
   return Controller.extend("my.project.erpproject.controller.Leaderboard", {
     onInit: function () {
       var oVM = new JSONModel({ items: [] });
@@ -125,6 +179,8 @@ sap.ui.define([
       });
 
       var mStats = {};
+      var mReviewsPerArtiest = {};
+
       (aReviews || []).forEach(function (r) {
         if (!r) { return; }
 
@@ -145,6 +201,14 @@ sap.ui.define([
         mStats[iArtiestID].sum += v;
         mStats[iArtiestID].count += 1;
 
+        if (!mReviewsPerArtiest[iArtiestID]) {
+          mReviewsPerArtiest[iArtiestID] = [];
+        }
+        mReviewsPerArtiest[iArtiestID].push({
+          datum: r.datum,
+          rating: v
+        });
+
         if (!mArtiest[iArtiestID] && r.artiest) {
           mArtiest[iArtiestID] = r.artiest;
         }
@@ -156,6 +220,8 @@ sap.ui.define([
         var fAvg = (iCount > 0) ? (st.sum / iCount) : 0;
         var fAvg1 = Math.round(fAvg * 10) / 10;
 
+        var aTrendPoints = _buildTrendPoints(mReviewsPerArtiest[a.ID] || [], (iCount === 0 ? 0 : fAvg1));
+
         return {
           artiest_ID: a.ID,
           artiestNaam: a.artiestNaam || "",
@@ -163,7 +229,8 @@ sap.ui.define([
           land: a.land || "",
           avgRating: (iCount === 0) ? 0 : fAvg1,
           reviewCount: iCount,
-          rank: 0
+          rank: 0,
+          trendPoints: aTrendPoints
         };
       });
 
