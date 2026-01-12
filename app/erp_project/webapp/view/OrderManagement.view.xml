@@ -93,6 +93,14 @@
         showNavButton="true"
         navButtonPress=".onCloseDetail">
 
+        <m:headerContent>
+          <m:Button
+            text="Afdrukken"
+            icon="sap-icon://print"
+            type="Transparent"
+            press=".onPrintOrder" />
+        </m:headerContent>
+
         <m:content>
           <m:ObjectHeader
             title="Order #{ID}"
