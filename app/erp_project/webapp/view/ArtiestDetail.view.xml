@@ -14,6 +14,58 @@
 
     <content>
 
+      <!-- Uitbreiding: profielkaart (Avatar + label + social links + genre tags) -->
+      <Panel
+        id="profileCard"
+        class="sapUiSmallMarginBottom sapUiResponsivePadding--content"
+        expandable="false">
+        <content>
+          <HBox alignItems="Center" justifyContent="Start" width="100%">
+
+            <Avatar
+  displayShape="Circle"
+  displaySize="XL"
+  initials="{path: 'artiestNaam', formatter: '.formatInitials'}"
+  fallbackIcon="sap-icon://person-placeholder" />
+
+
+            <VBox class="sapUiSmallMarginBegin" width="100%">
+              <Title text="{artiestNaam}" level="H2" />
+
+              <ObjectStatus
+                text="{parts: [{path: 'populariteit'}, {path: 'vm>/avgRating'}], formatter: '.formatArtistLabel'}"
+                state="{path: 'populariteit', formatter: '.formatArtistLabelState'}" />
+
+              <HBox class="sapUiTinyMarginTop" wrap="Wrap" alignItems="Center">
+                <Link
+                  text="Open Spotify"
+                  href="{path: 'artiestNaam', formatter: '.formatSpotifyUrl'}"
+                  target="_blank" />
+                <Text text=" · " />
+                <Link
+                  text="Open Instagram"
+                  href="{path: 'artiestNaam', formatter: '.formatInstagramUrl'}"
+                  target="_blank" />
+              </HBox>
+
+              <HBox class="sapUiTinyMarginTop" alignItems="Center" width="100%">
+                <Label text="Genres" class="sapUiTinyMarginEnd" />
+                <MultiInput
+                  id="miGenres"
+                  width="100%"
+                  editable="false"
+                  tokens="{path: 'vm>/genreTokens'}">
+                  <tokens>
+                    <Token text="{vm>text}" editable="false" />
+                  </tokens>
+                </MultiInput>
+              </HBox>
+            </VBox>
+
+          </HBox>
+        </content>
+      </Panel>
+
       <ObjectHeader
         title="{artiestNaam}"
         intro="{genre}"

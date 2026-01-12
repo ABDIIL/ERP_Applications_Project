@@ -23,7 +23,11 @@ sap.ui.define([
 
   return Controller.extend("my.project.erpproject.controller.ArtiestDetail", {
     onInit: function () {
-      this.getView().setModel(new JSONModel({ avgRating: 0, reviewCount: 0 }), "vm");
+      this.getView().setModel(new JSONModel({
+        avgRating: 0,
+        reviewCount: 0,
+        genreTokens: []
+      }), "vm");
 
       this._sArtiestId = null;
       this._oReviewDialog = null;
@@ -44,8 +48,102 @@ sap.ui.define([
         path: "/Artiesten(" + iId + ")"
       });
 
+      this._attachDetailDataHandler();
+
       this._bindOptredens(iId);
       this._bindReviews(iId);
+    },
+
+    _attachDetailDataHandler: function () {
+      var oBinding = this.getView().getElementBinding();
+      if (!oBinding || !oBinding.attachDataReceived) {
+        return;
+      }
+
+      // voorkom dubbele handlers bij hernavigatie
+      if (this._fnDetailDataReceived) {
+        try {
+          oBinding.detachDataReceived(this._fnDetailDataReceived, this);
+        } catch (e) {
+          // ignore
+        }
+      }
+
+      this._fnDetailDataReceived = this._onDetailDataReceived;
+      oBinding.attachDataReceived(this._fnDetailDataReceived, this);
+    },
+
+    _onDetailDataReceived: async function () {
+      var oCtx = this.getView().getBindingContext();
+      if (!oCtx) {
+        return;
+      }
+
+      var oObj = null;
+      try {
+        // OData V4 context ondersteunt requestObject()
+        if (oCtx.requestObject) {
+          oObj = await oCtx.requestObject();
+        } else if (oCtx.getObject) {
+          oObj = oCtx.getObject();
+        }
+      } catch (e) {
+        // ignore
+      }
+
+      var sGenre = oObj && oObj.genre ? String(oObj.genre) : "";
+      var aGenres = [];
+      if (sGenre) {
+        // enkel splitten als data effectief meerdere genres bevat
+        aGenres = sGenre.indexOf(",") > -1
+          ? sGenre.split(",").map(function (g) { return g.trim(); }).filter(Boolean)
+          : [sGenre.trim()];
+      }
+
+      var aTokens = aGenres.map(function (g) { return { text: g }; });
+      this.getView().getModel("vm").setProperty("/genreTokens", aTokens);
+    },
+
+    formatInitials: function (sName) {
+      if (!sName) {
+        return "";
+      }
+      var aParts = String(sName).trim().split(/\s+/).filter(Boolean);
+      if (aParts.length === 0) {
+        return "";
+      }
+      var s1 = aParts[0].charAt(0).toUpperCase();
+      var s2 = aParts.length > 1 ? aParts[1].charAt(0).toUpperCase() : "";
+      return (s1 + s2).slice(0, 2);
+    },
+
+    formatSpotifyUrl: function (sName) {
+      var sQ = encodeURIComponent((sName || "").trim());
+      return "https://open.spotify.com/search/" + sQ;
+    },
+
+    formatInstagramUrl: function (sName) {
+      var sQ = encodeURIComponent((sName || "").trim());
+      return "https://www.instagram.com/" + sQ + "/";
+    },
+
+    formatArtistLabel: function (vPopulariteit /*, vAvgRating */) {
+      var fPop = parseFloat(vPopulariteit);
+      if (!Number.isFinite(fPop)) {
+        return "Rising Star";
+      }
+
+      // Op basis van de meegeleverde demo-data: populariteit zit grofweg tussen ~4.8 en ~9.4
+      // → Headliner voor top-tier (>= 8.5)
+      return fPop >= 8.5 ? "Headliner" : "Rising Star";
+    },
+
+    formatArtistLabelState: function (vPopulariteit) {
+      var fPop = parseFloat(vPopulariteit);
+      if (Number.isFinite(fPop) && fPop >= 8.5) {
+        return "Success";
+      }
+      return "Information";
     },
 
     onNavBack: function () {
