@@ -63,10 +63,6 @@ sap.ui.define([
       UIComponent.getRouterFor(this).navTo("RouteArtiestManagement", {}, true);
     },
 
-    onRefresh: function () {
-      this._loadLineUp().then(this._applyFixedStart.bind(this));
-    },
-
     onFilterChange: function () {
       this._loadLineUp().then(this._applyFixedStart.bind(this));
     },

@@ -49,9 +49,6 @@
             items="{filters>/views}">
             <core:Item key="{filters>key}" text="{filters>text}" />
           </Select>
-
-          <ToolbarSeparator />
-          <Button text="Vernieuwen" press=".onRefresh" />
         </OverflowToolbar>
 
         <PlanningCalendar

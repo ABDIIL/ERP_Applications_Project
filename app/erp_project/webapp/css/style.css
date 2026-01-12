@@ -1,5 +1,3 @@
-/* /home/user/projects/ERP_Applications_Project/app/erp_project/webapp/css/style.css */
-
 /* Profile card iets aanpassen, visueel! */
 .profileCard {
   border-radius: 12px;
@@ -14,27 +12,4 @@
 .genreTags .sapMObjStatus {
   margin-right: 0.25rem;
   margin-top: 0.125rem;
-}
-
-/* ---- Line-up & Planning (PlanningCalendar) ---- */
-
-/* Meer verticale ruimte per rij zodat Month/Week niet “lege blokken” lijken */
-.lineUpCalendar .sapMPlanCalRow,
-.lineUpCalendar .sapMPlanCalRowContent {
-  min-height: 160px;
-  height: 160px;
-}
-
-/* Meer ruimte voor afspraken in month/week */
-.lineUpCalendar .sapMPlanCalRowApps {
-  min-height: 140px;
-}
-
-/* Afspraken iets duidelijker */
-.lineUpCalendar .sapUiCalendarAppTitle {
-  font-weight: 600;
-}
-
-.lineUpCalendar .sapUiCalendarAppText {
-  white-space: nowrap;
 }
