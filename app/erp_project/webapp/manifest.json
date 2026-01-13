@@ -76,13 +76,6 @@
         }
       }
     },
-    "resources": {
-      "css": [
-        {
-          "uri": "css/style.css"
-        }
-      ]
-    },
     "routing": {
       "config": {
         "routerClass": "sap.m.routing.Router",
@@ -93,6 +86,7 @@
         "viewType": "XML",
         "path": "my.project.erpproject.view",
         "async": true,
+        "viewPath": "my.project.erpproject.view",
         "viewPath": "my.project.erpproject.view"
       },
       "routes": [

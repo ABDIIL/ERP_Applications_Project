@@ -10,113 +10,120 @@
     title="{artiestNaam}"
     showNavButton="true"
     navButtonPress=".onNavBack"
-    class="sapUiResponsivePadding--header sapUiResponsivePadding--content artistDetailPage">
+    backgroundDesign="Solid"
+    class="sapUiResponsivePadding--header sapUiResponsivePadding--content">
 
     <content>
 
-      <!-- Profielkaart -->
       <Panel
         id="profileCard"
-        class="profileCard artistCard sapUiSmallMarginBottom sapUiResponsivePadding--content"
+        backgroundDesign="Solid"
+        class="sapUiSmallMarginBottom"
         expandable="false">
         <content>
-          <HBox alignItems="Center" justifyContent="Start" width="100%">
+          <VBox class="sapUiContentPadding" width="100%">
+            <HBox alignItems="Center" justifyContent="Start" width="100%">
 
-            <Avatar
-              displayShape="Circle"
-              displaySize="XL"
-              initials="{path: 'artiestNaam', formatter: '.formatInitials'}"
-              fallbackIcon="sap-icon://person-placeholder" />
+              <Avatar
+                displayShape="Circle"
+                displaySize="XL"
+                initials="{path: 'artiestNaam', formatter: '.formatInitials'}"
+                fallbackIcon="sap-icon://person-placeholder" />
 
-            <VBox class="sapUiSmallMarginBegin" width="100%">
-              <Title text="{artiestNaam}" level="H2" />
-
-              <ObjectStatus
-                text="{path: 'populariteit', formatter: '.formatArtistLabel'}"
-                state="{path: 'populariteit', formatter: '.formatArtistLabelState'}" />
-
-              <HBox class="sapUiTinyMarginTop" wrap="Wrap" alignItems="Center">
-                <Link
-                  text="Open Spotify"
-                  href="{path: 'artiestNaam', formatter: '.formatSpotifyUrl'}"
-                  target="_blank" />
-                <Text text=" · " />
-                <Link
-                  text="Open Instagram"
-                  href="{path: 'artiestNaam', formatter: '.formatInstagramUrl'}"
-                  target="_blank" />
-              </HBox>
-
-              <!-- Genre tags (max 3) -->
-              <HBox class="sapUiTinyMarginTop genreTags" wrap="Wrap" alignItems="Center" width="100%">
-                <Label text="Genres" class="sapUiTinyMarginEnd" />
+              <VBox class="sapUiSmallMarginBegin" width="100%">
+                <Title text="{artiestNaam}" level="H2" />
 
                 <ObjectStatus
-                  inverted="true"
-                  text="{path: 'genre', formatter: '.formatGenre1'}"
-                  state="{path: 'genre', formatter: '.formatGenreState1'}"
-                  visible="{path: 'genre', formatter: '.formatGenreVisible1'}" />
+                  text="{path: 'populariteit', formatter: '.formatArtistLabel'}"
+                  state="{path: 'populariteit', formatter: '.formatArtistLabelState'}" />
 
-                <ObjectStatus
-                  inverted="true"
-                  text="{path: 'genre', formatter: '.formatGenre2'}"
-                  state="{path: 'genre', formatter: '.formatGenreState2'}"
-                  visible="{path: 'genre', formatter: '.formatGenreVisible2'}" />
+                <HBox class="sapUiTinyMarginTop" wrap="Wrap" alignItems="Center">
+                  <Link
+                    text="Open Spotify"
+                    href="{path: 'artiestNaam', formatter: '.formatSpotifyUrl'}"
+                    target="_blank" />
+                  <Text text=" · " />
+                  <Link
+                    text="Open Instagram"
+                    href="{path: 'artiestNaam', formatter: '.formatInstagramUrl'}"
+                    target="_blank" />
+                </HBox>
 
-                <ObjectStatus
-                  inverted="true"
-                  text="{path: 'genre', formatter: '.formatGenre3'}"
-                  state="{path: 'genre', formatter: '.formatGenreState3'}"
-                  visible="{path: 'genre', formatter: '.formatGenreVisible3'}" />
-              </HBox>
+                <HBox class="sapUiTinyMarginTop" wrap="Wrap" alignItems="Center" width="100%">
+                  <Label text="Genres" class="sapUiTinyMarginEnd" />
 
-            </VBox>
+                  <ObjectStatus
+                    class="sapUiTinyMarginEnd sapUiTinyMarginTop"
+                    inverted="true"
+                    text="{path: 'genre', formatter: '.formatGenre1'}"
+                    state="{path: 'genre', formatter: '.formatGenreState1'}"
+                    visible="{path: 'genre', formatter: '.formatGenreVisible1'}" />
 
-          </HBox>
+                  <ObjectStatus
+                    class="sapUiTinyMarginEnd sapUiTinyMarginTop"
+                    inverted="true"
+                    text="{path: 'genre', formatter: '.formatGenre2'}"
+                    state="{path: 'genre', formatter: '.formatGenreState2'}"
+                    visible="{path: 'genre', formatter: '.formatGenreVisible2'}" />
+
+                  <ObjectStatus
+                    class="sapUiTinyMarginEnd sapUiTinyMarginTop"
+                    inverted="true"
+                    text="{path: 'genre', formatter: '.formatGenre3'}"
+                    state="{path: 'genre', formatter: '.formatGenreState3'}"
+                    visible="{path: 'genre', formatter: '.formatGenreVisible3'}" />
+                </HBox>
+
+              </VBox>
+
+            </HBox>
+          </VBox>
         </content>
       </Panel>
 
-      <!-- Witte info-card: ObjectHeader links, Reviews rechts (verticaal gecentreerd) -->
       <Panel
         id="artistHeaderCard"
-        class="artistCard artistHeaderCard sapUiSmallMarginBottom"
+        backgroundDesign="Solid"
+        class="sapUiSmallMarginBottom"
         expandable="false">
         <content>
 
-          <HBox width="100%" justifyContent="SpaceBetween" alignItems="Center">
+          <VBox class="sapUiContentPadding" width="100%">
+            <HBox width="100%" justifyContent="SpaceBetween" alignItems="Center">
 
-            <ObjectHeader
-              title="{artiestNaam}"
-              intro="{genre}"
-              backgroundDesign="Transparent">
-              <layoutData>
-                <FlexItemData growFactor="1" />
-              </layoutData>
+              <ObjectHeader
+                title="{artiestNaam}"
+                intro="{genre}"
+                backgroundDesign="Transparent">
+                <layoutData>
+                  <FlexItemData growFactor="1" />
+                </layoutData>
 
-              <attributes>
-                <ObjectAttribute title="Land" text="{land}" />
-                <ObjectAttribute title="Nationaliteit" text="{nationaliteit}" />
-                <ObjectAttribute title="Populariteit" text="{populariteit}" />
-                <ObjectAttribute title="Aantal reviews" text="{vm>/reviewCount}" />
-              </attributes>
-            </ObjectHeader>
+                <attributes>
+                  <ObjectAttribute title="Land" text="{land}" />
+                  <ObjectAttribute title="Nationaliteit" text="{nationaliteit}" />
+                  <ObjectAttribute title="Populariteit" text="{populariteit}" />
+                  <ObjectAttribute title="Aantal reviews" text="{vm>/reviewCount}" />
+                </attributes>
+              </ObjectHeader>
 
-            <VBox class="artistHeaderRight" alignItems="End">
-              <layoutData>
-                <FlexItemData shrinkFactor="0" />
-              </layoutData>
+              <VBox class="sapUiLargeMarginBegin sapUiTinyMarginEnd" width="12rem" alignItems="End">
+                <layoutData>
+                  <FlexItemData shrinkFactor="0" />
+                </layoutData>
 
-              <Label text="Reviews" class="sapUiTinyMarginBottom" />
-              <RatingIndicator
-                maxValue="5"
-                value="{vm>/avgRating}"
-                displayOnly="true"
-                editable="false"
-                iconSize="30px"
-                tooltip="{= 'Gemiddelde review: ' + ${vm>/avgRating} + ' / 5' }" />
-            </VBox>
+                <Label text="Reviews" class="sapUiTinyMarginBottom" />
+                <RatingIndicator
+                  maxValue="5"
+                  value="{vm>/avgRating}"
+                  displayOnly="true"
+                  editable="false"
+                  iconSize="30px"
+                  tooltip="{= 'Gemiddelde review: ' + ${vm>/avgRating} + ' / 5' }" />
+              </VBox>
 
-          </HBox>
+            </HBox>
+          </VBox>
 
         </content>
       </Panel>

@@ -33,6 +33,10 @@ sap.ui.define([
     onInit: function () {
       this.byId("sorteerKeuze").setSelectedKey("artiestNaam");
 
+      // bij terugkeer naar deze view: herladen zodat nieuwe records zichtbaar zijn
+      this.getOwnerComponent().getRouter().getRoute("RouteArtiestManagement")
+        .attachPatternMatched(this._onRouteMatched, this);
+
       this.getView().addEventDelegate({
         onAfterRendering: function () {
           this._pasFiltersEnSorteringToe();
@@ -41,6 +45,18 @@ sap.ui.define([
 
       // menu instance (zelfde patroon als andere pagina's)
       this._oNavMenu = null;
+    },
+
+    _onRouteMatched: function () {
+      var oTabel = this.byId("tabelArtiesten");
+      var oBinding = oTabel && oTabel.getBinding("items");
+
+      this._pasFiltersEnSorteringToe();
+
+      // OData V4: expliciet refreshen om nieuwe entries op te halen
+      if (oBinding && typeof oBinding.refresh === "function") {
+        oBinding.refresh();
+      }
     },
 
     onExit: function () {

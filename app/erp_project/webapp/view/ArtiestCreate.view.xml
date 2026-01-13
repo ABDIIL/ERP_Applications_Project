@@ -50,11 +50,21 @@
             </items>
           </Select>
 
-          <Label text="Land" />
-          <Input value="{create>/land}" placeholder="Bijv. België" />
+          <Label text="Land" required="{create>/landRequired}" />
+          <Input
+            value="{create>/land}"
+            placeholder="Bijv. België"
+            liveChange=".onLandNatChange"
+            valueState="{create>/landValueState}"
+            valueStateText="Vul land of nationaliteit in." />
 
-          <Label text="Nationaliteit" />
-          <Input value="{create>/nationaliteit}" placeholder="Bijv. Belg" />
+          <Label text="Nationaliteit" required="{create>/nationaliteitRequired}" />
+          <Input
+            value="{create>/nationaliteit}"
+            placeholder="Bijv. Belg"
+            liveChange=".onLandNatChange"
+            valueState="{create>/natValueState}"
+            valueStateText="Vul land of nationaliteit in." />
 
           <Label text="Biografie (optioneel)" />
           <TextArea value="{create>/biografie}" rows="4" growing="true" placeholder="Korte biografie..." />

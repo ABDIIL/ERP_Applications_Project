@@ -68,18 +68,21 @@
               <cells>
                 <Text text="{artiestNaam}" />
 
-                <HBox class="genreTags" wrap="Wrap">
+                <HBox wrap="Wrap">
                   <ObjectStatus
+                    class="sapUiTinyMarginEnd sapUiTinyMarginTop"
                     inverted="true"
                     text="{path: 'genre', formatter: '.formatGenre1'}"
                     state="{path: 'genre', formatter: '.formatGenreState1'}"
                     visible="{path: 'genre', formatter: '.formatGenreVisible1'}" />
                   <ObjectStatus
+                    class="sapUiTinyMarginEnd sapUiTinyMarginTop"
                     inverted="true"
                     text="{path: 'genre', formatter: '.formatGenre2'}"
                     state="{path: 'genre', formatter: '.formatGenreState2'}"
                     visible="{path: 'genre', formatter: '.formatGenreVisible2'}" />
                   <ObjectStatus
+                    class="sapUiTinyMarginEnd sapUiTinyMarginTop"
                     inverted="true"
                     text="{path: 'genre', formatter: '.formatGenre3'}"
                     state="{path: 'genre', formatter: '.formatGenreState3'}"

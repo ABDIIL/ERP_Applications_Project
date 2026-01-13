@@ -17,19 +17,55 @@ sap.ui.define([
         festivalDagId: "",
         stageId: "",
         startTijd: "",
-        eindTijd: ""
+        eindTijd: "",
+
+        landRequired: true,
+        nationaliteitRequired: true,
+        landValueState: "None",
+        natValueState: "None",
+        landNatTouched: false
       });
+
       this.getView().setModel(oCreateModel, "create");
+      this._updateLandNatIndicators(false);
     },
 
     onCancel: function () {
       this.getOwnerComponent().getRouter().navTo("RouteArtiestManagement");
     },
 
+    onLandNatChange: function () {
+      var oM = this.getView().getModel("create");
+      oM.setProperty("/landNatTouched", true);
+      this._updateLandNatIndicators(true);
+    },
+
+    _updateLandNatIndicators: function (bShowError) {
+      var oM = this.getView().getModel("create");
+      var sLand = (oM.getProperty("/land") || "").trim();
+      var sNat = (oM.getProperty("/nationaliteit") || "").trim();
+      var bBothEmpty = !sLand && !sNat;
+
+      oM.setProperty("/landRequired", bBothEmpty);
+      oM.setProperty("/nationaliteitRequired", bBothEmpty);
+
+      if (!bShowError) {
+        oM.setProperty("/landValueState", "None");
+        oM.setProperty("/natValueState", "None");
+        return;
+      }
+
+      oM.setProperty("/landValueState", bBothEmpty ? "Error" : "None");
+      oM.setProperty("/natValueState", bBothEmpty ? "Error" : "None");
+    },
+
     onSave: async function () {
       var oView = this.getView();
       var oData = oView.getModel("create").getData();
       var oModel = oView.getModel();
+
+      oView.getModel("create").setProperty("/landNatTouched", true);
+      this._updateLandNatIndicators(true);
 
       var sNaam = (oData.artiestNaam || "").trim();
       var sGenre = (oData.genre || "").trim();
@@ -54,14 +90,12 @@ sap.ui.define([
         return;
       }
 
-      // CAP OData Time verwacht meestal HH:mm:ss
       var sStartTime = sStart.length === 5 ? (sStart + ":00") : sStart;
       var sEndTime = sEinde.length === 5 ? (sEinde + ":00") : sEinde;
 
       try {
         oView.setBusy(true);
 
-        // 1) Artiest aanmaken
         var oArtiestList = oModel.bindList("/Artiesten");
         var oArtiestCtx = oArtiestList.create({
           artiestNaam: sNaam,
@@ -75,7 +109,6 @@ sap.ui.define([
         await oArtiestCtx.created();
         var iNewArtiestId = oArtiestCtx.getProperty("ID");
 
-        // 2) Eerste optreden aanmaken
         var oOptredenList = oModel.bindList("/Optredens");
         var oOptredenCtx = oOptredenList.create({
           artiest_ID: iNewArtiestId,
@@ -87,9 +120,7 @@ sap.ui.define([
         await oOptredenCtx.created();
 
         MessageToast.show("Artiest aangemaakt");
-
-        // navigeer naar detail
-        this.getOwnerComponent().getRouter().navTo("RouteArtiestDetail", { ID: iNewArtiestId });
+        this.getOwnerComponent().getRouter().navTo("RouteArtiestManagement", {}, true);
       } catch (e) {
         MessageBox.error("Aanmaken mislukt. Controleer je invoer en probeer opnieuw.");
         // eslint-disable-next-line no-console
