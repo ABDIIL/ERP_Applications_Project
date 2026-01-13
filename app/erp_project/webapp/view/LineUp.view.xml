@@ -8,9 +8,17 @@
   <Page
     id="paginaLineUp"
     title="Line-up &amp; Planning"
-    showNavButton="true"
-    navButtonPress=".onNavBack"
+    showNavButton="false"
     class="sapUiSizeCozy">
+
+    <headerContent>
+      <Button
+        id="btnNavMenuLineUp"
+        icon="sap-icon://menu2"
+        type="Transparent"
+        tooltip="Menu"
+        press=".onOpenNavMenu" />
+    </headerContent>
 
     <content>
       <VBox width="100%">

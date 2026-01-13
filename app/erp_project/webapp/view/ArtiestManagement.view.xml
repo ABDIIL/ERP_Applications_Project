@@ -41,9 +41,15 @@
           </Select>
 
           <ToolbarSeparator />
-          <Button text="Line-up" press=".naarLineUp" />
-          <Button text="Leaderboard" press=".naarLeaderboard" />
-          <Button text="Orders" press=".naarOrders" />
+
+          <Button
+            id="btnNavMenu"
+            text="Menu"
+            type="Transparent"
+            icon="sap-icon://navigation-down-arrow"
+            press=".onOpenNavMenu"
+            ariaHasPopup="Menu" />
+
           <Button text="Nieuwe artiest" type="Emphasized" press=".onNewArtiest" />
         </OverflowToolbar>
 
@@ -62,7 +68,6 @@
               <cells>
                 <Text text="{artiestNaam}" />
 
-                <!-- max 3 tags -->
                 <HBox class="genreTags" wrap="Wrap">
                   <ObjectStatus
                     inverted="true"

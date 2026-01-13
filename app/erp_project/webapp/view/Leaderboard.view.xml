@@ -1,4 +1,3 @@
-<!-- webapp/view/Leaderboard.view.xml -->
 <mvc:View
   controllerName="my.project.erpproject.controller.Leaderboard"
   xmlns:mvc="sap.ui.core.mvc"
@@ -6,7 +5,20 @@
   xmlns:core="sap.ui.core"
   xmlns:mc="sap.suite.ui.microchart">
 
-  <Page id="paginaLeaderboard" title="Leaderboard" showNavButton="true" navButtonPress=".onNavBack">
+  <Page
+    id="paginaLeaderboard"
+    title="Leaderboard"
+    showNavButton="false">
+
+    <headerContent>
+      <Button
+        id="btnNavMenuLeaderboard"
+        icon="sap-icon://menu2"
+        type="Transparent"
+        tooltip="Menu"
+        press=".onOpenNavMenu" />
+    </headerContent>
+
     <content>
       <VBox width="100%">
 
@@ -34,9 +46,6 @@
             <core:Item key="avgRating" text="Sorteer: gemiddelde rating (hoog-laag)" />
             <core:Item key="reviewCount" text="Sorteer: aantal reviews (hoog-laag)" />
           </Select>
-
-          <ToolbarSeparator />
-          <Button text="Vernieuwen" press=".onRefresh" />
         </OverflowToolbar>
 
         <Table
@@ -84,7 +93,6 @@
 
                 <Text text="{leaderboard>land}" />
 
-                <!-- FIX: schaal per artiest zodat het geen “platte” lijn is -->
                 <mc:LineMicroChart
                   size="Responsive"
                   height="18px"

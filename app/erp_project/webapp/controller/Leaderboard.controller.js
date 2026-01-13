@@ -1,10 +1,10 @@
-// webapp/controller/Leaderboard.controller.js
 sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/ui/model/json/JSONModel",
   "sap/m/MessageBox",
-  "sap/ui/core/routing/History"
-], function (Controller, JSONModel, MessageBox, History) {
+  "sap/ui/core/Fragment",
+  "sap/m/MenuItem"
+], function (Controller, JSONModel, MessageBox, Fragment, MenuItem) {
   "use strict";
 
   function _toDateValue(s) {
@@ -114,7 +114,6 @@ sap.ui.define([
       maxY = maxY + pad;
     }
 
-    // als je scores typisch 0..10 zijn, clamp zachtjes
     if (maxY <= 10.5 && minY >= -0.5) {
       minY = Math.max(0, minY);
       maxY = Math.min(10, maxY);
@@ -133,6 +132,7 @@ sap.ui.define([
       this.getView().setModel(oVM, "leaderboard");
 
       this._aAllItems = [];
+      this._oNavMenu = null;
 
       var oSort = this.byId("sorteerLeaderboard");
       if (oSort) {
@@ -152,21 +152,59 @@ sap.ui.define([
       this._loadLeaderboard();
     },
 
-    onNavBack: function () {
-      var oHistory = History.getInstance();
-      var sPreviousHash = oHistory.getPreviousHash();
+    // ===== Menu (fragment) =====
+    onOpenNavMenu: function (oEvent) {
+      var oButton = oEvent.getSource();
+      var oView = this.getView();
 
-      if (sPreviousHash !== undefined) {
-        window.history.go(-1);
+      if (!this._oNavMenu) {
+        Fragment.load({
+          id: oView.getId(),
+          name: "my.project.erpproject.view.fragments.NavMenu",
+          controller: this
+        }).then(function (oMenu) {
+          this._oNavMenu = oMenu;
+          oView.addDependent(oMenu);
+          this._syncNavMenuEnabled();
+          oMenu.openBy(oButton);
+        }.bind(this));
+        return;
+      }
+
+      this._syncNavMenuEnabled();
+
+      if (this._oNavMenu.isOpen && this._oNavMenu.isOpen()) {
+        this._oNavMenu.close();
       } else {
-        this.getOwnerComponent().getRouter().navTo("RouteArtiestManagement", {}, true);
+        this._oNavMenu.openBy(oButton);
       }
     },
 
-    onRefresh: function () {
-      this._loadLeaderboard();
+    _syncNavMenuEnabled: function () {
+      if (!this._oNavMenu || !this._oNavMenu.getItems) { return; }
+
+      (this._oNavMenu.getItems() || []).forEach(function (oItem) {
+        if (oItem && oItem.setEnabled && oItem.getKey) {
+          oItem.setEnabled(oItem.getKey() !== "RouteLeaderboard");
+        }
+      });
     },
 
+    onNavMenuAction: function (oEvent) {
+      var oItem = oEvent.getParameter("item");
+      if (!oItem) { return; }
+
+      while (oItem instanceof MenuItem && oItem.getParent && oItem.getParent() instanceof MenuItem) {
+        oItem = oItem.getParent();
+      }
+
+      var sRoute = oItem.getKey && oItem.getKey();
+      if (!sRoute) { return; }
+
+      this.getOwnerComponent().getRouter().navTo(sRoute);
+    },
+
+    // ===== Filters / table =====
     onSearchLiveChange: function () {
       this._applyClientFilters();
     },
@@ -206,7 +244,6 @@ sap.ui.define([
       var pArtiesten = this._requestAll(oModel, "/Artiesten", { $$groupId: "$direct" });
       var pReviews = this._requestAll(oModel, "/Reviews", { $expand: "artiest", $$groupId: "$direct" });
 
-      // EntitySet naam volgens $metadata: "PopulariteitPunt"
       var pPunten = this._requestAll(oModel, "/PopulariteitPunt", { $$groupId: "$direct" })
         .catch(function () { return []; });
 
@@ -310,7 +347,6 @@ sap.ui.define([
         var fAvg = (iCount > 0) ? (st.sum / iCount) : 0;
         var fAvg1 = Math.round(fAvg * 10) / 10;
 
-        // Trend: enkel PopulariteitPunt gebruiken (6 per artiest). Fallback enkel als er echt geen punten zijn.
         var aPop = mPuntenPerArtiest[a.ID] || [];
         var aTrendPoints = aPop.length ? _buildTrendPointsFromScores(aPop) : _buildTrendPointsFromReviews(mReviewsPerArtiest[a.ID] || []);
 

@@ -13,7 +13,21 @@
     backgroundDesign="Solid">
 
     <beginColumnPages>
-      <m:Page id="ordersListPage" title="Orders">
+      <!-- ❌ back pijl weg, ✅ menu knop in headerContent -->
+      <m:Page
+        id="ordersListPage"
+        title="Orders"
+        showNavButton="false">
+
+        <m:headerContent>
+          <m:Button
+            id="btnNavMenuOrders"
+            icon="sap-icon://menu2"
+            type="Transparent"
+            tooltip="Menu"
+            press=".onOpenNavMenu" />
+        </m:headerContent>
+
         <m:content>
           <m:VBox width="100%">
 

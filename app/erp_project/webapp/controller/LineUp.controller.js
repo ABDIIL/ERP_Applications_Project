@@ -1,12 +1,12 @@
 sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/ui/model/json/JSONModel",
-  "sap/ui/core/UIComponent",
-  "sap/ui/core/routing/History",
   "sap/ui/model/Filter",
   "sap/ui/model/FilterOperator",
-  "sap/m/MessageBox"
-], function (Controller, JSONModel, UIComponent, History, Filter, FilterOperator, MessageBox) {
+  "sap/m/MessageBox",
+  "sap/ui/core/Fragment",
+  "sap/m/MenuItem"
+], function (Controller, JSONModel, Filter, FilterOperator, MessageBox, Fragment, MenuItem) {
   "use strict";
 
   return Controller.extend("my.project.erpproject.controller.LineUp", {
@@ -14,6 +14,8 @@ sap.ui.define([
       var oView = this.getView();
 
       this._oFixedStart = new Date(2026, 0, 1, 11, 0, 0);
+
+      this._oNavMenu = null;
 
       var oFiltersModel = new JSONModel({
         stages: [{ ID: "", stageNaam: "Alle stages" }],
@@ -40,27 +42,70 @@ sap.ui.define([
       this._initLineUp();
     },
 
+    // ===== Menu (fragment) =====
+    onOpenNavMenu: function (oEvent) {
+      var oButton = oEvent.getSource();
+      var oView = this.getView();
+
+      if (!this._oNavMenu) {
+        Fragment.load({
+          id: oView.getId(),
+          name: "my.project.erpproject.view.fragments.NavMenu",
+          controller: this
+        }).then(function (oMenu) {
+          this._oNavMenu = oMenu;
+          oView.addDependent(oMenu);
+          this._syncNavMenuEnabled();
+          oMenu.openBy(oButton);
+        }.bind(this));
+        return;
+      }
+
+      this._syncNavMenuEnabled();
+
+      if (this._oNavMenu.isOpen && this._oNavMenu.isOpen()) {
+        this._oNavMenu.close();
+      } else {
+        this._oNavMenu.openBy(oButton);
+      }
+    },
+
+    _syncNavMenuEnabled: function () {
+      // Disable "Line-up" op deze pagina
+      if (!this._oNavMenu || !this._oNavMenu.getItems) { return; }
+
+      (this._oNavMenu.getItems() || []).forEach(function (oItem) {
+        if (oItem && oItem.setEnabled && oItem.getKey) {
+          oItem.setEnabled(oItem.getKey() !== "RouteLineUp");
+        }
+      });
+    },
+
+    onNavMenuAction: function (oEvent) {
+      var oItem = oEvent.getParameter("item");
+      if (!oItem) { return; }
+
+      while (oItem instanceof MenuItem && oItem.getParent && oItem.getParent() instanceof MenuItem) {
+        oItem = oItem.getParent();
+      }
+
+      var sRoute = oItem.getKey && oItem.getKey();
+      if (!sRoute) { return; }
+
+      this.getOwnerComponent().getRouter().navTo(sRoute);
+    },
+
     _initLineUp: async function () {
       try {
         await this._loadFilterData();
         await this._loadLineUp();
         this._applyFixedStart();
       } catch (e) {
+        /* eslint-disable no-console */
         console.error("LineUp init error:", e);
+        /* eslint-enable no-console */
         MessageBox.error("Fout bij initialisatie van Line-up.");
       }
-    },
-
-    onNavBack: function () {
-      var oHistory = History.getInstance();
-      var sPrevHash = oHistory.getPreviousHash();
-
-      if (sPrevHash !== undefined) {
-        window.history.go(-1);
-        return;
-      }
-
-      UIComponent.getRouterFor(this).navTo("RouteArtiestManagement", {}, true);
     },
 
     onFilterChange: function () {

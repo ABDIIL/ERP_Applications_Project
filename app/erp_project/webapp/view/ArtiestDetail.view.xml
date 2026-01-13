@@ -10,14 +10,14 @@
     title="{artiestNaam}"
     showNavButton="true"
     navButtonPress=".onNavBack"
-    class="sapUiResponsivePadding--header sapUiResponsivePadding--content">
+    class="sapUiResponsivePadding--header sapUiResponsivePadding--content artistDetailPage">
 
     <content>
 
       <!-- Profielkaart -->
       <Panel
         id="profileCard"
-        class="profileCard sapUiSmallMarginBottom sapUiResponsivePadding--content"
+        class="profileCard artistCard sapUiSmallMarginBottom sapUiResponsivePadding--content"
         expandable="false">
         <content>
           <HBox alignItems="Center" justifyContent="Start" width="100%">
@@ -76,19 +76,50 @@
         </content>
       </Panel>
 
-      <ObjectHeader
-        title="{artiestNaam}"
-        intro="{genre}"
-        number="{vm>/avgRating}"
-        numberUnit="/ 5"
-        backgroundDesign="Solid">
-        <attributes>
-          <ObjectAttribute title="Land" text="{land}" />
-          <ObjectAttribute title="Nationaliteit" text="{nationaliteit}" />
-          <ObjectAttribute title="Populariteit" text="{populariteit}" />
-          <ObjectAttribute title="Aantal reviews" text="{vm>/reviewCount}" />
-        </attributes>
-      </ObjectHeader>
+      <!-- Witte info-card: ObjectHeader links, Reviews rechts (verticaal gecentreerd) -->
+      <Panel
+        id="artistHeaderCard"
+        class="artistCard artistHeaderCard sapUiSmallMarginBottom"
+        expandable="false">
+        <content>
+
+          <HBox width="100%" justifyContent="SpaceBetween" alignItems="Center">
+
+            <ObjectHeader
+              title="{artiestNaam}"
+              intro="{genre}"
+              backgroundDesign="Transparent">
+              <layoutData>
+                <FlexItemData growFactor="1" />
+              </layoutData>
+
+              <attributes>
+                <ObjectAttribute title="Land" text="{land}" />
+                <ObjectAttribute title="Nationaliteit" text="{nationaliteit}" />
+                <ObjectAttribute title="Populariteit" text="{populariteit}" />
+                <ObjectAttribute title="Aantal reviews" text="{vm>/reviewCount}" />
+              </attributes>
+            </ObjectHeader>
+
+            <VBox class="artistHeaderRight" alignItems="End">
+              <layoutData>
+                <FlexItemData shrinkFactor="0" />
+              </layoutData>
+
+              <Label text="Reviews" class="sapUiTinyMarginBottom" />
+              <RatingIndicator
+                maxValue="5"
+                value="{vm>/avgRating}"
+                displayOnly="true"
+                editable="false"
+                iconSize="30px"
+                tooltip="{= 'Gemiddelde review: ' + ${vm>/avgRating} + ' / 5' }" />
+            </VBox>
+
+          </HBox>
+
+        </content>
+      </Panel>
 
       <IconTabBar
         id="tabsArtiestDetail"

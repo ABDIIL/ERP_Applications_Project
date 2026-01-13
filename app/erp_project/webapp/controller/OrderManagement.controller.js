@@ -6,8 +6,10 @@ sap.ui.define([
   "sap/ui/model/FilterOperator",
   "sap/ui/model/Sorter",
   "sap/m/MessageToast",
-  "sap/m/MessageBox"
-], function (Controller, JSONModel, Filter, FilterOperator, Sorter, MessageToast, MessageBox) {
+  "sap/m/MessageBox",
+  "sap/ui/core/Fragment",
+  "sap/m/MenuItem"
+], function (Controller, JSONModel, Filter, FilterOperator, Sorter, MessageToast, MessageBox, Fragment, MenuItem) {
   "use strict";
 
   function _escapeHtml(s) {
@@ -32,12 +34,71 @@ sap.ui.define([
       var oLayoutModel = new JSONModel({ layout: "OneColumn" });
       this.getView().setModel(oLayoutModel, "layoutModel");
 
+      this._oNavMenu = null;
+
       if (this.byId("sortOrder")) {
         this.byId("sortOrder").setSelectedKey("date_desc");
       }
       this._applyOrderFiltersAndSort();
     },
 
+    // ===== Menu (fragment) =====
+    onOpenNavMenu: function (oEvent) {
+      var oButton = oEvent.getSource();
+      var oView = this.getView();
+
+      if (!this._oNavMenu) {
+        Fragment.load({
+          id: oView.getId(),
+          name: "my.project.erpproject.view.fragments.NavMenu",
+          controller: this
+        }).then(function (oMenu) {
+          this._oNavMenu = oMenu;
+          oView.addDependent(oMenu);
+          this._syncNavMenuEnabled();
+          oMenu.openBy(oButton);
+        }.bind(this));
+        return;
+      }
+
+      this._syncNavMenuEnabled();
+
+      if (this._oNavMenu.isOpen && this._oNavMenu.isOpen()) {
+        this._oNavMenu.close();
+      } else {
+        this._oNavMenu.openBy(oButton);
+      }
+    },
+
+    _syncNavMenuEnabled: function () {
+      // Zorg dat "Orders" disabled is op de Orders pagina (netjes)
+      if (!this._oNavMenu || !this._oNavMenu.getItems) { return; }
+
+      var aItems = this._oNavMenu.getItems() || [];
+      aItems.forEach(function (oItem) {
+        if (oItem && oItem.setEnabled && oItem.getKey) {
+          oItem.setEnabled(oItem.getKey() !== "RouteOrders");
+        }
+      });
+    },
+
+    onNavMenuAction: function (oEvent) {
+      var oItem = oEvent.getParameter("item");
+      if (!oItem) { return; }
+
+      // support nested MenuItem path, maar hier is het vlak
+      while (oItem instanceof MenuItem && oItem.getParent && oItem.getParent() instanceof MenuItem) {
+        oItem = oItem.getParent();
+      }
+
+      var sRoute = oItem.getKey && oItem.getKey();
+      if (!sRoute) { return; }
+
+      // Navigeer naar gekozen route
+      this.getOwnerComponent().getRouter().navTo(sRoute);
+    },
+
+    // ===== Orders logic =====
     onOrderPress: function (oEvent) {
       var oItem = oEvent.getSource();
       var oCtx = oItem.getBindingContext();

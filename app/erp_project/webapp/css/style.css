@@ -1,4 +1,5 @@
-/* Profile card iets aanpassen, visueel! */
+
+/* padding/spacing, page background, border-radius/overflow clipping, etc ...  alleen kleine visuele aanpassingen, niks funtioneel!!!  */
 .profileCard {
   border-radius: 12px;
   overflow: hidden;
@@ -8,8 +9,33 @@
   border-radius: 12px;
 }
 
-/* Genre tags spacing */
+
 .genreTags .sapMObjStatus {
   margin-right: 0.25rem;
   margin-top: 0.125rem;
+}
+
+
+.artistDetailPage .sapMPageBg,
+.artistDetailPage .sapMPageBgStandard {
+  background: #ffffff;
+}
+
+
+.artistCard {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.artistCard .sapMPanelContent {
+  padding: 16px;
+}
+
+
+.artistHeaderRight {
+  padding-left: 28px;  /* afstand van ObjectHeader */
+  padding-right: 10px; /* afstand tot card-rand */
+  min-width: 180px;
 }
